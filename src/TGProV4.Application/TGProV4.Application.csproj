@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TGProV4.Domain\TGProV4.Domain.csproj" />
+    <ProjectReference Include="..\TGProV4.Shared\TGProV4.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
+    <Using Include="System.Linq.Expressions" />
+    <Using Include="FluentValidation.Results" />
+    <Using Include="TGProV4.Domain.Contracts" />
+    <Using Include="TGProV4.Shared.Constants.Application" />
+    <Using Include="TGProV4.Shared.Wrapper.Base" />
+  </ItemGroup>
+
+</Project>
