@@ -58,7 +58,7 @@ public class ApplicationDbContext : AuditableDbContext
         }
         
         foreach (var property in builder.Model.GetEntityTypes()
-            .SelectMany( type=> type.GetProperties())
+            .SelectMany(type => type.GetProperties())
             .Where(property => property.Name is "LastModifiedBy" or "CreatedBy"))
         {
             property.SetColumnType("nvarchar(128)");
