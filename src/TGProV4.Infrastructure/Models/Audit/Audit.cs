@@ -1,5 +1,3 @@
-using TGProV4.Domain.Contracts;
-
 namespace TGProV4.Infrastructure.Models.Audit;
 
 public class Audit : IEntity<int>

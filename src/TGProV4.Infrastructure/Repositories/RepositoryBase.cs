@@ -13,45 +13,55 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
     
     public IQueryable<T> Entities => _db;
     
+    public async Task<bool> IsEntityExists(Expression<Func<T, bool>> predicate)
+    {
+        return await _db.AnyAsync(predicate);
+    }
+
+    public IQueryable<T> GetEntities(
+        Expression<Func<T, bool>>? predicate = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+        string includeProperties = "")
+    {
+        var query = includeProperties.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Aggregate<string?, IQueryable<T>>(_db, (current, includeProperty)
+                => includeProperty != null ? current.Include(includeProperty) : current);
+        
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+
+        if (orderBy != null)
+        {
+            query = orderBy(query);
+        }
+
+        return query;
+    }
+
+    public IQueryable<T> GetPagedResponse(int pageNumber, int pageSize,
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+        string includeProperties = "")
+    {
+        var query = includeProperties.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Aggregate<string?, IQueryable<T>>(_db, (current, includeProperty)
+                => includeProperty != null ? current.Include(includeProperty) : current);
+        
+        if (orderBy != null)
+        {
+            query = orderBy(query);
+        }
+        
+        return query.Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .AsNoTracking();
+    }
+    
     public async Task<T> AddAsync(T entity)
     {
         await _db.AddAsync(entity);
         return entity;
-    }
-
-    public Task DeleteAsync(T entity)
-    {
-        _db.Remove(entity);
-        return Task.CompletedTask;
-    }
-
-    public async Task<List<T>> GetAllAsync()
-    {
-        IQueryable<T> query = _db;
-
-        return await query.ToListAsync();
-    }
-
-    public async Task<T?> GetByIdAsync(TId id)
-    {
-        return await _db.FindAsync(id);
-    }
-
-    public async Task<List<T>> GetPagedResponseAsync(int pageNumber, int pageSize)
-    {
-        return await _db.Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync();
-    }
-
-    public async Task<T?> GetFirstAsync(Expression<Func<T, bool>>? expression = null)
-    {
-        IQueryable<T> query = _db;
-
-        if (expression is null)
-        {
-            return await query.FirstOrDefaultAsync();
-        }
-
-        return await query.FirstOrDefaultAsync(expression);
     }
 
     public Task UpdateAsync(T entity)
@@ -66,6 +76,12 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
         
         entityEntry.State = EntityState.Modified;
         
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(T entity)
+    {
+        _db.Remove(entity);
         return Task.CompletedTask;
     }
 }

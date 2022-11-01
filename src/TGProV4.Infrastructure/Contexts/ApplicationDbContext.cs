@@ -1,9 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using TGProV4.Application.Interfaces.Services;
-using TGProV4.Domain.Contracts;
-using TGProV4.Infrastructure.Models.Identity;
-
 namespace TGProV4.Infrastructure.Contexts;
 
 public class ApplicationDbContext : AuditableDbContext

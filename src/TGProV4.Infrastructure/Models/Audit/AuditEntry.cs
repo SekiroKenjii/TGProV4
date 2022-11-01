@@ -1,7 +1,3 @@
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
-using TGProV4.Domain.Enums;
-
 namespace TGProV4.Infrastructure.Models.Audit;
 
 public class AuditEntry

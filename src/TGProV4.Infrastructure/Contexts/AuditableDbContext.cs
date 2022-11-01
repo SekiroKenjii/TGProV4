@@ -1,10 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using TGProV4.Domain.Enums;
-using TGProV4.Infrastructure.Models.Audit;
-using TGProV4.Infrastructure.Models.Identity;
-
 namespace TGProV4.Infrastructure.Contexts;
 
 public class AuditableDbContext

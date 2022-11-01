@@ -29,12 +29,21 @@
   <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
     <Using Include="System.Collections" />
     <Using Include="System.Linq.Expressions" />
+    <Using Include="Microsoft.AspNetCore.Identity" />
+    <Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.EntityFrameworkCore.ChangeTracking" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Newtonsoft.Json" />
     <Using Include="TGProV4.Application.Exceptions" />
     <Using Include="TGProV4.Application.Interfaces.Repositories" />
     <Using Include="TGProV4.Application.Interfaces.Services" />
     <Using Include="TGProV4.Domain.Contracts" />
+    <Using Include="TGProV4.Domain.Enums" />
     <Using Include="TGProV4.Infrastructure.Contexts" />
+    <Using Include="TGProV4.Infrastructure.Models.Audit" />
+    <Using Include="TGProV4.Infrastructure.Models.Identity" />
+    <Using Include="TGProV4.Infrastructure.Repositories" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using TGProV4.Domain.Contracts;
-
 namespace TGProV4.Infrastructure.Models.Identity;
 
 public class AppUser : IdentityUser<string>, IAuditableEntity<string>
