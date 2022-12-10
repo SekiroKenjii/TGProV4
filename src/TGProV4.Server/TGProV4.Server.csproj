@@ -41,12 +41,15 @@
     <Using Include="Newtonsoft.Json" />
     <Using Include="TGProV4.Application.Configurations" />
     <Using Include="TGProV4.Application.Exceptions" />
+    <Using Include="TGProV4.Application.Extensions" />
     <Using Include="TGProV4.Application.Interfaces.Services" />
     <Using Include="TGProV4.Infrastructure.Contexts" />
     <Using Include="TGProV4.Infrastructure.Extensions" />
     <Using Include="TGProV4.Server.Extensions" />
     <Using Include="TGProV4.Server.Middlewares" />
     <Using Include="TGProV4.Server.Services" />
+    <Using Include="TGProV4.Shared.Constants.Application" />
+    <Using Include="TGProV4.Shared.Helpers" />
     <Using Include="TGProV4.Shared.Wrapper" />
     <Using Include="TGProV4.Shared.Wrapper.Base" />
   </ItemGroup>

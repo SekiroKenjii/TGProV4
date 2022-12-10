@@ -22,6 +22,17 @@ public class ValidationException : Exception
             });
         }
     }
+    
+    public ValidationException(string errorCode, string message, string propertyName)
+        : this()
+    {
+        _errors.Add(new BaseError
+        {
+            Code = errorCode,
+            Message = message,
+            RelatedProperties = propertyName
+        });
+    }
 
     public List<BaseError> GetErrors() => _errors;
 }

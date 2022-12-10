@@ -1,3 +1,5 @@
+using JsonSerializer = System.Text.Json.JsonSerializer;
+
 namespace TGProV4.Server.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -99,10 +101,7 @@ public static class ServiceCollectionExtensions
         var secret = config.Secret;
 
         if (string.IsNullOrEmpty(secret))
-        {
-            // have to update exception after adding app's custom exception
-            throw new Exception("Missed config of JWT");
-        }
+            throw new Exception(StringHelpers.MissedConfig("JWT"));
         
         var key = Encoding.UTF8.GetBytes(secret);
         
@@ -114,6 +113,17 @@ public static class ServiceCollectionExtensions
             })
             .AddJwtBearer(options =>
             {
+                var response = new Response<string>
+                {
+                    Succeeded = false,
+                    Data = default
+                };
+
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+                
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -134,8 +144,8 @@ public static class ServiceCollectionExtensions
                         {
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             context.Response.ContentType = "application/json";
-                            // have to update result after adding app' response object
-                            var result = JsonConvert.SerializeObject(new { msg = "The Token is expired." });
+                            response.Message = ApplicationConstants.Messages.TokenExpired;
+                            var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
                             return context.Response.WriteAsync(result);
                         }
 #if DEBUG
@@ -146,8 +156,8 @@ public static class ServiceCollectionExtensions
 #else
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         context.Response.ContentType = "application/json";
-                        // have to update result after adding app' response object
-                        var result = JsonConvert.SerializeObject(new { msg = "An unhandled error has occurred." });
+                        response.Message = ApplicationConstants.Messages.InternalServerError;
+                        var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
                         return context.Response.WriteAsync(result);
 #endif
                     },
@@ -159,8 +169,8 @@ public static class ServiceCollectionExtensions
                         
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         context.Response.ContentType = "application/json";
-                        // have to update result after adding app' response object
-                        var result = JsonConvert.SerializeObject(new { msg = "You are not Authorized." });
+                        response.Message = ApplicationConstants.Messages.Unauthorized;
+                        var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
                         return context.Response.WriteAsync(result);
 
                     },
@@ -168,8 +178,8 @@ public static class ServiceCollectionExtensions
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                         context.Response.ContentType = "application/json";
-                        // have to update result after adding app' response object
-                        var result = JsonConvert.SerializeObject(new { msg = "You are not authorized to access this resource." });
+                        response.Message = ApplicationConstants.Messages.Forbidden;
+                        var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
                         return context.Response.WriteAsync(result);
                     }
                 };

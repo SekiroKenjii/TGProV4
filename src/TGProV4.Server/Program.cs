@@ -9,6 +9,8 @@ var services = builder.Services;
 // Add services to the container.
 services.AddSerialization();
 
+services.AddApplicationLayer();
+
 services.AddDatabase(config);
 
 services.AddCurrentUserService();

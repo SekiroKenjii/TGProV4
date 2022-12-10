@@ -8,10 +8,8 @@ public class AppRoleClaim : IdentityRoleClaim<string>, IAuditableEntity<int>
     public DateTimeOffset CreatedOn { get; set; }
     public string LastModifiedBy { get; set; } = default!;
     public DateTimeOffset? LastModifiedOn { get; set; }
-    public virtual AppRole Role { get; set; }
-
-    public AppRoleClaim()
-    { }
+    
+    public virtual AppRole? Role { get; set; }
 
     public AppRoleClaim(string? roleClaimDescription = null, string? roleClaimGroup = null)
     {

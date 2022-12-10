@@ -45,6 +45,14 @@ public class ErrorHandlerMiddleware
                 response.Message = validation.Message;
                 response.Errors = validation.GetErrors();
                 break;
+            case SecurityTokenException tokenError:
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                response.Message = tokenError.Message;
+                break;
+            case BadRequestException bad:
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.Message = bad.Message;
+                break;
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 response.Message = "Internal server error";

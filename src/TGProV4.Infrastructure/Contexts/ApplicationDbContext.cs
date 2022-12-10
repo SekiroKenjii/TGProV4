@@ -10,22 +10,25 @@ public class ApplicationDbContext : AuditableDbContext
         _currentUserService = currentUserService;
     }
 
-    //public DbSet<Entity>? Entities { get; set; }
+    // public DbSet<Entity>? Entities { get; set; }
     
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
+        if (_currentUserService.UserId == null)
+            return await base.SaveChangesAsync(cancellationToken);
+        
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
         {
             switch (entry.State)
             {
                 case EntityState.Added:
                     entry.Entity.CreatedOn = DateTimeOffset.Now;
-                    entry.Entity.CreatedBy = _currentUserService.UserId!;
+                    entry.Entity.CreatedBy = _currentUserService.UserId;
                     break;
 
                 case EntityState.Modified:
                     entry.Entity.LastModifiedOn = DateTimeOffset.Now;
-                    entry.Entity.LastModifiedBy = _currentUserService.UserId!;
+                    entry.Entity.LastModifiedBy = _currentUserService.UserId;
                     break;
                 
                 case EntityState.Detached:
@@ -35,9 +38,6 @@ public class ApplicationDbContext : AuditableDbContext
                     break;
             }
         }
-        
-        if (_currentUserService.UserId == null)
-            return await base.SaveChangesAsync(cancellationToken);
         
         return await base.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
     }
@@ -95,10 +95,15 @@ public class ApplicationDbContext : AuditableDbContext
                 .HasForeignKey(x => x.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
-        builder.Entity<IdentityUserToken<string>>(entity =>
+        
+        builder.Entity<AppUserToken>(entity =>
         {
-            entity.ToTable("UserTokens", "Identity");
+            entity.ToTable(name: "UserTokens", "Identity");
+
+            entity.HasOne(x => x.User)
+                .WithMany(y => y.UserTokens)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

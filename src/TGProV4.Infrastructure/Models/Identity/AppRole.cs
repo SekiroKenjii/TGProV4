@@ -7,16 +7,11 @@ public class AppRole : IdentityRole, IAuditableEntity<string>
     public DateTimeOffset CreatedOn { get; set; }
     public string LastModifiedBy { get; set; } = default!;
     public DateTimeOffset? LastModifiedOn { get; set; }
-    public ICollection<AppRoleClaim> RoleClaims { get; set; }
-
-    public AppRole() : base()
-    {
-        RoleClaims = new HashSet<AppRoleClaim>();
-    }
+    
+    public ICollection<AppRoleClaim> RoleClaims { get; set; } = new HashSet<AppRoleClaim>();
 
     public AppRole(string roleName, string? roleDescription = null) : base(roleName)
     {
-        RoleClaims = new HashSet<AppRoleClaim>();
         Description = roleDescription;
     }
 }
