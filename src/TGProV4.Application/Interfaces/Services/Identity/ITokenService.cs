@@ -1,4 +1,4 @@
-namespace TGProV4.Application.Interfaces.Services.Identity;
+﻿namespace TGProV4.Application.Interfaces.Services.Identity;
 
 public interface ITokenService
 {

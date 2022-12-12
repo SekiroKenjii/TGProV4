@@ -1,4 +1,4 @@
-namespace TGProV4.Shared.Models.Identity;
+﻿namespace TGProV4.Shared.Models.Identity;
 
 public class UserRoleModel
 {

@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Models.Identity;
+﻿namespace TGProV4.Infrastructure.Models.Identity;
 
 public class AppUserToken : IdentityUserToken<string>, IEntity<int>
 {

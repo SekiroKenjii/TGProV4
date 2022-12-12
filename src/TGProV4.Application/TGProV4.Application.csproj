@@ -10,35 +10,35 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
-    <PackageReference Include="MediatR" Version="11.0.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.0"/>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2"/>
+    <PackageReference Include="MediatR" Version="11.0.0"/>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TGProV4.Domain\TGProV4.Domain.csproj" />
-    <ProjectReference Include="..\TGProV4.Shared\TGProV4.Shared.csproj" />
+    <ProjectReference Include="..\TGProV4.Domain\TGProV4.Domain.csproj"/>
+    <ProjectReference Include="..\TGProV4.Shared\TGProV4.Shared.csproj"/>
   </ItemGroup>
 
   <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
-    <Using Include="System.Linq.Expressions" />
-    <Using Include="System.Reflection" />
-    <Using Include="AutoMapper" />
-    <Using Include="FluentValidation.Results" />
-    <Using Include="MediatR" />
-    <Using Include="Microsoft.Extensions.DependencyInjection" />
-    <Using Include="TGProV4.Domain.Contracts" />
-    <Using Include="TGProV4.Application.Requests.Identity" />
-    <Using Include="TGProV4.Application.Responses.Identity" />
-    <Using Include="TGProV4.Shared.Constants.Application" />
-    <Using Include="TGProV4.Shared.Wrapper.Base" />
+    <Using Include="System.Linq.Expressions"/>
+    <Using Include="System.Reflection"/>
+    <Using Include="AutoMapper"/>
+    <Using Include="FluentValidation.Results"/>
+    <Using Include="MediatR"/>
+    <Using Include="Microsoft.Extensions.DependencyInjection"/>
+    <Using Include="TGProV4.Domain.Contracts"/>
+    <Using Include="TGProV4.Application.Requests.Identity"/>
+    <Using Include="TGProV4.Application.Responses.Identity"/>
+    <Using Include="TGProV4.Shared.Constants.Application"/>
+    <Using Include="TGProV4.Shared.Wrapper.Base"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappings" />
-    <Folder Include="Validators\Custom" />
+    <Folder Include="Mappings"/>
+    <Folder Include="Validators\Custom"/>
   </ItemGroup>
 
 </Project>

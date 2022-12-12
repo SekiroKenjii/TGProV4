@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Models.Audit;
+﻿namespace TGProV4.Infrastructure.Models.Audit;
 
 public class AuditEntry
 {
@@ -31,7 +31,7 @@ public class AuditEntry
             NewValues = NewValues.Count == 0 ? null : JsonConvert.SerializeObject(NewValues),
             AffectedColumns = ChangedColumns.Count == 0 ? null : JsonConvert.SerializeObject(ChangedColumns)
         };
-        
+
         return audit;
     }
 }

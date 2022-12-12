@@ -1,4 +1,4 @@
-namespace TGProV4.Shared.Wrapper.Base;
+﻿namespace TGProV4.Shared.Wrapper.Base;
 
 public class BaseResponse
 {

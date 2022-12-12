@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.WebUtilities;
+﻿using Microsoft.AspNetCore.WebUtilities;
 
 namespace TGProV4.Infrastructure.Services.Identity;
 
@@ -10,8 +10,10 @@ public class UserService : IUserService
     private readonly ICurrentUserService _currentUserService;
 
     public UserService(
-        UserManager<AppUser> userManager, RoleManager<AppRole> roleManager,
-        IMapper mapper, ICurrentUserService currentUserService)
+        UserManager<AppUser> userManager,
+        RoleManager<AppRole> roleManager,
+        IMapper mapper,
+        ICurrentUserService currentUserService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -22,16 +24,16 @@ public class UserService : IUserService
     public async Task<List<UserResponse>> GetAllUsers()
     {
         var users = await _userManager.Users.Select(x => new UserResponse
-        {
-            Id = x.Id,
-            FirstName = x.FirstName,
-            LastName = x.LastName,
-            Email = x.Email,
-            IsActive = x.IsActive,
-            EmailConfirmed = x.EmailConfirmed,
-            PhoneNumber = x.PhoneNumber,
-            AvatarUrl = x.AvatarUrl
-        })
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Email = x.Email,
+                IsActive = x.IsActive,
+                EmailConfirmed = x.EmailConfirmed,
+                PhoneNumber = x.PhoneNumber,
+                AvatarUrl = x.AvatarUrl
+            })
             .ToListAsync();
 
         return users;
@@ -61,7 +63,9 @@ public class UserService : IUserService
             .FirstOrDefaultAsync();
 
         if (user == null)
-            throw new NotFoundException(StringHelpers.NotFound("User"));
+        {
+            throw new NotFoundException(StringHelpers.Message.NotFound("User"));
+        }
 
         return user;
     }
@@ -71,28 +75,38 @@ public class UserService : IUserService
         var exists = await _userManager.FindByEmailAsync(request.Email);
 
         if (exists != null)
+        {
             throw new ValidationException(
-                errorCode: "DuplicateDataValidator",
-                message: StringHelpers.AlreadyTaken("Email"),
-                propertyName: "Email");
+                "DuplicateDataValidator",
+                StringHelpers.Message.AlreadyTaken("Email"),
+                "Email");
+        }
 
         exists = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == request.PhoneNumber);
 
         if (exists != null)
+        {
             throw new ValidationException(
-                errorCode: "DuplicateDataValidator",
-                message: StringHelpers.AlreadyTaken("PhoneNumber"),
-                propertyName: "PhoneNumber");
+                "DuplicateDataValidator",
+                StringHelpers.Message.AlreadyTaken("PhoneNumber"),
+                "PhoneNumber");
+        }
 
         var user = _mapper.Map<AppUser>(request);
 
         var createUser = await _userManager.CreateAsync(user, request.Password);
 
-        if (!createUser.Succeeded) return false;
+        if (!createUser.Succeeded)
+        {
+            return false;
+        }
 
         var addBasicRole = await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.Basic);
 
-        if (!addBasicRole.Succeeded) return false;
+        if (!addBasicRole.Succeeded)
+        {
+            return false;
+        }
 
         if (!request.AutoConfirmEmail)
         {
@@ -109,7 +123,9 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user == null)
-            throw new NotFoundException(StringHelpers.NotFound("User"));
+        {
+            throw new NotFoundException(StringHelpers.Message.NotFound("User"));
+        }
 
         var roles = await _roleManager.Roles.ToListAsync();
 
@@ -131,31 +147,42 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(request.UserId);
 
         if (user == null)
-            throw new NotFoundException(StringHelpers.NotFound("User"));
+        {
+            throw new NotFoundException(StringHelpers.Message.NotFound("User"));
+        }
 
         var userRoles = await _userManager.GetRolesAsync(user);
         var selectedRoles = request.Roles.Where(x => x.Selected).ToList();
 
         if (string.IsNullOrEmpty(_currentUserService.UserId))
+        {
             throw new UnauthorizedException(ApplicationConstants.Messages.Unauthorized);
+        }
 
         var currentUser = await _userManager.FindByIdAsync(_currentUserService.UserId);
 
         if (currentUser == null)
-            throw new NotFoundException(StringHelpers.NotFound("Current User"));
+        {
+            throw new NotFoundException(StringHelpers.Message.NotFound("Current User"));
+        }
 
         if (!await _userManager.IsInRoleAsync(currentUser, ApplicationConstants.Roles.Administrator))
         {
             var addAdminRole = selectedRoles.Any(x => x.RoleName == ApplicationConstants.Roles.Administrator);
             var isAdministrator = userRoles.Any(x => x == ApplicationConstants.Roles.Administrator);
 
-            if (addAdminRole && !isAdministrator || !addAdminRole && isAdministrator)
+            if ((addAdminRole && !isAdministrator) || (!addAdminRole && isAdministrator))
+            {
                 throw new BadRequestException(ApplicationConstants.Messages.NotAllowToAddOrDeleteAdminRole);
+            }
         }
 
         var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
 
-        if (!result.Succeeded) return false;
+        if (!result.Succeeded)
+        {
+            return false;
+        }
 
         result = await _userManager.AddToRolesAsync(user, selectedRoles.Select(x => x.RoleName));
 
@@ -167,7 +194,9 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user == null)
-            throw new NotFoundException(StringHelpers.NotFound("User"));
+        {
+            throw new NotFoundException(StringHelpers.Message.NotFound("User"));
+        }
 
         var decode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
 

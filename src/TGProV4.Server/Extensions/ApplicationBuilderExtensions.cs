@@ -1,8 +1,9 @@
-namespace TGProV4.Server.Extensions;
+﻿namespace TGProV4.Server.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
-    public static void UseExceptionHandling(this IApplicationBuilder app,
+    public static void UseExceptionHandling(
+        this IApplicationBuilder app,
         IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
@@ -10,7 +11,7 @@ public static class ApplicationBuilderExtensions
             app.UseDeveloperExceptionPage();
         }
     }
-    
+
     public static void ConfigureSwagger(this IApplicationBuilder app)
     {
         app.UseSwagger();

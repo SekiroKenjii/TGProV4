@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Services.Identity;
+﻿namespace TGProV4.Infrastructure.Services.Identity;
 
 public class IdentityService : ITokenService
 {
@@ -21,37 +21,39 @@ public class IdentityService : ITokenService
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user == null)
+        {
             throw new UnauthorizedException(ApplicationConstants.Messages.InvalidCredentialInfo);
+        }
 
         if (!user.IsActive)
+        {
             throw new UnauthorizedException(ApplicationConstants.Messages.LockedUser);
+        }
 
         if (!user.EmailConfirmed)
+        {
             throw new UnauthorizedException(ApplicationConstants.Messages.EmailUnconfirmed);
+        }
 
         var checkPassword = await _userManager.CheckPasswordAsync(user, request.Password);
 
         if (!checkPassword)
+        {
             throw new UnauthorizedException(ApplicationConstants.Messages.InvalidCredentialInfo);
+        }
 
         var refreshToken = GenerateRefreshToken();
 
         user.UserTokens.Add(new AppUserToken
         {
-            LoginProvider = "TGProV4.Identity",
-            Name = user.Email,
-            Value = refreshToken
+            LoginProvider = "TGProV4.Identity", Name = user.Email, Value = refreshToken
         });
 
         await _userManager.UpdateAsync(user);
 
         var token = await GenerateJwtToken(user);
 
-        return new TokenResponse
-        {
-            Token = token,
-            RefreshToken = refreshToken
-        };
+        return new TokenResponse { Token = token, RefreshToken = refreshToken };
     }
 
     public async Task<TokenResponse?> GetRefreshToken(RefreshTokenRequest request)
@@ -62,34 +64,33 @@ public class IdentityService : ITokenService
             .Include(x => x.UserTokens)
             .FirstOrDefaultAsync(x => x.Id == userId);
 
-        if (user == null) return null;
+        if (user == null)
+        {
+            return null;
+        }
 
         var oldToken = user.UserTokens.SingleOrDefault(x => x.Value == request.RefreshToken);
 
         if (oldToken is { IsActive: false })
+        {
             throw new SecurityTokenException(ApplicationConstants.Messages.TokenRevoked);
+        }
 
         var refreshToken = GenerateRefreshToken();
 
         user.UserTokens.Add(new AppUserToken
         {
-            LoginProvider = "TGProV4.Identity",
-            Name = user.Email,
-            Value = refreshToken
+            LoginProvider = "TGProV4.Identity", Name = user.Email, Value = refreshToken
         });
 
         await _userManager.UpdateAsync(user);
 
         var token = await GenerateJwtToken(user);
 
-        return new TokenResponse
-        {
-            Token = token,
-            RefreshToken = refreshToken
-        };
+        return new TokenResponse { Token = token, RefreshToken = refreshToken };
     }
 
-    private string GenerateRefreshToken()
+    private static string GenerateRefreshToken()
     {
         var randomNumber = new byte[64];
         using var rng = RandomNumberGenerator.Create();
@@ -139,13 +140,13 @@ public class IdentityService : ITokenService
         }
 
         var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id),
-            new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Name, user.FirstName),
-            new(ClaimTypes.Surname, user.LastName),
-            new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
-        }
+            {
+                new(ClaimTypes.NameIdentifier, user.Id),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Name, user.FirstName),
+                new(ClaimTypes.Surname, user.LastName),
+                new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
+            }
             .Union(userClaims)
             .Union(roleClaims)
             .Union(permissionClaims);
@@ -178,7 +179,10 @@ public class IdentityService : ITokenService
                 SecurityAlgorithms.HmacSha256,
                 StringComparison.InvariantCultureIgnoreCase
             )
-        ) throw new SecurityTokenException(ApplicationConstants.Messages.InvalidToken);
+           )
+        {
+            throw new SecurityTokenException(ApplicationConstants.Messages.InvalidToken);
+        }
 
         return principal;
     }

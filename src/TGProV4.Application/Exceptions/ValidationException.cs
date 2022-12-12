@@ -1,4 +1,4 @@
-namespace TGProV4.Application.Exceptions;
+﻿namespace TGProV4.Application.Exceptions;
 
 public class ValidationException : Exception
 {
@@ -8,31 +8,27 @@ public class ValidationException : Exception
     {
         _errors = new List<BaseError>();
     }
-    
+
     public ValidationException(IEnumerable<ValidationFailure> failures)
         : this()
     {
         foreach (var failure in failures)
         {
-            _errors.Add(new BaseError
+            _errors.Add(new BaseValidationError
             {
-                Code = failure.ErrorCode,
-                Message = failure.ErrorMessage,
-                RelatedProperties = failure.PropertyName
+                Code = failure.ErrorCode, Message = failure.ErrorMessage, RelatedProperties = failure.PropertyName
             });
         }
     }
-    
+
     public ValidationException(string errorCode, string message, string propertyName)
         : this()
     {
-        _errors.Add(new BaseError
-        {
-            Code = errorCode,
-            Message = message,
-            RelatedProperties = propertyName
-        });
+        _errors.Add(new BaseValidationError { Code = errorCode, Message = message, RelatedProperties = propertyName });
     }
 
-    public List<BaseError> GetErrors() => _errors;
+    public List<BaseError> GetErrors()
+    {
+        return _errors;
+    }
 }

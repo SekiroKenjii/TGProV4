@@ -1,4 +1,4 @@
-namespace TGProV4.Domain.Contracts;
+﻿namespace TGProV4.Domain.Contracts;
 
 public abstract class AuditableEntity<TId> : IAuditableEntity<TId>
 {

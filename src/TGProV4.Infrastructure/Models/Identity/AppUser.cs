@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Models.Identity;
+﻿namespace TGProV4.Infrastructure.Models.Identity;
 
 public class AppUser : IdentityUser<string>, IAuditableEntity<string>
 {
@@ -12,6 +12,6 @@ public class AppUser : IdentityUser<string>, IAuditableEntity<string>
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
     public bool IsActive { get; set; }
-    
+
     public ICollection<AppUserToken> UserTokens { get; set; } = new HashSet<AppUserToken>();
 }

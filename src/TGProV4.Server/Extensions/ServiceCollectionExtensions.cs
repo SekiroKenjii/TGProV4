@@ -1,10 +1,12 @@
-using JsonSerializer = System.Text.Json.JsonSerializer;
+﻿using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TGProV4.Server.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static AppConfiguration GetApplicationSettings(this IServiceCollection services, IConfiguration configuration)
+    public static AppConfiguration GetApplicationSettings(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         var appSettingsConfiguration = configuration.GetSection(nameof(AppConfiguration));
         services.Configure<AppConfiguration>(appSettingsConfiguration);
@@ -15,16 +17,16 @@ public static class ServiceCollectionExtensions
     {
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Version = "v1",
-                Title = "TGProV4.CleanArchitecture",
-                License = new OpenApiLicense
+            options.SwaggerDoc("v1",
+                new OpenApiInfo
                 {
-                    Name = "MIT License",
-                    Url = new Uri("https://opensource.org/licenses/MIT")
-                }
-            });
+                    Version = "v1",
+                    Title = "TGProV4.CleanArchitecture",
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT License", Url = new Uri("https://opensource.org/licenses/MIT")
+                    }
+                });
 
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
@@ -43,11 +45,7 @@ public static class ServiceCollectionExtensions
                 {
                     new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        },
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" },
                         Scheme = "Bearer",
                         Name = "Bearer",
                         In = ParameterLocation.Header
@@ -59,9 +57,11 @@ public static class ServiceCollectionExtensions
     }
 
     public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
-        => services
+    {
+        services
             .AddDbContext<ApplicationDbContext>(options => options
                 .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+    }
 
     public static void AddCurrentUserService(this IServiceCollection services)
     {
@@ -91,9 +91,10 @@ public static class ServiceCollectionExtensions
 
     public static void AddSerialization(this IServiceCollection services)
     {
-        services.AddControllers().AddNewtonsoftJson(options =>
-            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        );
+        services.AddControllers()
+            .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            );
     }
 
     public static void AddJwtAuthentication(this IServiceCollection services, AppConfiguration config)
@@ -101,7 +102,9 @@ public static class ServiceCollectionExtensions
         var secret = config.Secret;
 
         if (string.IsNullOrEmpty(secret))
-            throw new Exception(StringHelpers.MissedConfig("JWT"));
+        {
+            throw new Exception(StringHelpers.Message.MissedConfig("JWT"));
+        }
 
         var key = Encoding.UTF8.GetBytes(secret);
 
@@ -113,11 +116,7 @@ public static class ServiceCollectionExtensions
             })
             .AddJwtBearer(options =>
             {
-                var response = new Response<string>
-                {
-                    Succeeded = false,
-                    Data = default
-                };
+                var response = new Response<string> { Succeeded = false, Data = default };
 
                 var jsonSerializerOptions = new JsonSerializerOptions
                 {
@@ -168,14 +167,16 @@ public static class ServiceCollectionExtensions
                     {
                         context.HandleResponse();
 
-                        if (context.Response.HasStarted) return Task.CompletedTask;
+                        if (context.Response.HasStarted)
+                        {
+                            return Task.CompletedTask;
+                        }
 
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         context.Response.ContentType = "application/json";
                         response.Message = ApplicationConstants.Messages.Unauthorized;
                         var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
                         return context.Response.WriteAsync(result);
-
                     },
                     OnForbidden = context =>
                     {

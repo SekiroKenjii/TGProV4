@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 
 namespace TGProV4.Application.Extensions;
 

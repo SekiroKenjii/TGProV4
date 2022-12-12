@@ -1,4 +1,4 @@
-namespace TGProV4.Application.Interfaces.Repositories;
+﻿namespace TGProV4.Application.Interfaces.Repositories;
 
 public interface IUnitOfWork<TId> : IDisposable
 {

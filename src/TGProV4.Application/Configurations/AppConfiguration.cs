@@ -1,4 +1,4 @@
-namespace TGProV4.Application.Configurations;
+﻿namespace TGProV4.Application.Configurations;
 
 public class AppConfiguration
 {

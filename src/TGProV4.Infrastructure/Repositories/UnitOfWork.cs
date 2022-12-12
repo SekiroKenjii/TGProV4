@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Repositories;
+﻿namespace TGProV4.Infrastructure.Repositories;
 
 public class UnitOfWork<TId> : IUnitOfWork<TId>
 {
@@ -10,13 +10,13 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
     {
         _context = context;
     }
-    
+
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-    
+
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed)
@@ -27,6 +27,7 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
                 _context.Dispose();
             }
         }
+
         //dispose unmanaged resources
         _disposed = true;
     }
@@ -37,8 +38,11 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
 
         var type = typeof(T).Name;
 
-        if (!_repositories.ContainsKey(type)) return (IRepositoryBase<T, TId>)_repositories[type]!;
-        
+        if (!_repositories.ContainsKey(type))
+        {
+            return (IRepositoryBase<T, TId>)_repositories[type]!;
+        }
+
         var repositoryType = typeof(IRepositoryBase<,>);
 
         var repositoryInstance = Activator.CreateInstance

@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Mappings;
+﻿namespace TGProV4.Infrastructure.Mappings;
 
 public class UserProfile : Profile
 {

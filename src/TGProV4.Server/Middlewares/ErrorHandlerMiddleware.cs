@@ -1,4 +1,4 @@
-namespace TGProV4.Server.Middlewares;
+﻿namespace TGProV4.Server.Middlewares;
 
 public class ErrorHandlerMiddleware
 {
@@ -10,7 +10,7 @@ public class ErrorHandlerMiddleware
         _next = next;
         _logger = logger;
     }
-    
+
     public async Task InvokeAsync(HttpContext context)
     {
         try
@@ -19,7 +19,7 @@ public class ErrorHandlerMiddleware
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, exception.Message);
+            _logger.LogError(exception, "An error has occurred: {stackTrace}", exception.StackTrace);
             await HandleException(context, exception);
         }
     }
@@ -27,16 +27,12 @@ public class ErrorHandlerMiddleware
     private static async Task HandleException(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
-        
-        var response = new Response<string>
-        {
-            Succeeded = false,
-            Data = default
-        };
-        
+
+        var response = new Response<string> { Succeeded = false, Data = default };
+
         switch (exception)
         {
-            case NotFoundException  notFound:
+            case NotFoundException notFound:
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 response.Message = notFound.Message;
                 break;
@@ -56,12 +52,7 @@ public class ErrorHandlerMiddleware
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 response.Message = "Internal server error";
-                response.Errors.Add(new BaseError
-                {
-                    Code = exception.Source,
-                    RelatedProperties = null,
-                    Message = exception.Message
-                });
+                HandleStackTrace(response.Errors, exception);
                 break;
         }
 
@@ -70,5 +61,22 @@ public class ErrorHandlerMiddleware
         var json = System.Text.Json.JsonSerializer.Serialize(response, options);
 
         await context.Response.WriteAsync(json);
+    }
+
+    private static void HandleStackTrace(ICollection<BaseError> errors, Exception exception)
+    {
+        var stackTrace = new StackTrace(exception, true);
+
+        for (var i = 0; i < stackTrace.FrameCount; i++)
+        {
+            var stackFrame = stackTrace.GetFrame(i);
+
+            errors.Add(new BaseSystemError
+            {
+                FileName = stackFrame?.GetFileName(),
+                Method = stackFrame?.GetMethod()?.ToString(),
+                LineNumber = stackFrame?.GetFileLineNumber().ToString()
+            });
+        }
     }
 }

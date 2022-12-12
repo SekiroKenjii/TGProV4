@@ -1,4 +1,4 @@
-namespace TGProV4.Server.Services;
+﻿namespace TGProV4.Server.Services;
 
 public class CurrentUserService : ICurrentUserService
 {

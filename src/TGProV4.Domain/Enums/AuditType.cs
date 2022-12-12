@@ -1,4 +1,4 @@
-namespace TGProV4.Domain.Enums;
+﻿namespace TGProV4.Domain.Enums;
 
 public enum AuditType : byte
 {

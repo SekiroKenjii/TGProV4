@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Repositories;
+﻿namespace TGProV4.Infrastructure.Repositories;
 
 public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : AuditableEntity<TId>
 {
@@ -10,9 +10,9 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
         _context = context;
         _db = _context.Set<T>();
     }
-    
+
     public IQueryable<T> Entities => _db;
-    
+
     public async Task<bool> IsEntityExists(Expression<Func<T, bool>> predicate)
     {
         return await _db.AnyAsync(predicate);
@@ -23,10 +23,10 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
         string includeProperties = "")
     {
-        var query = includeProperties.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        var query = includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Aggregate<string?, IQueryable<T>>(_db, (current, includeProperty)
                 => includeProperty != null ? current.Include(includeProperty) : current);
-        
+
         if (predicate != null)
         {
             query = query.Where(predicate);
@@ -40,24 +40,26 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
         return query;
     }
 
-    public IQueryable<T> GetPagedResponse(int pageNumber, int pageSize,
+    public IQueryable<T> GetPagedResponse(
+        int pageNumber,
+        int pageSize,
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
         string includeProperties = "")
     {
-        var query = includeProperties.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        var query = includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Aggregate<string?, IQueryable<T>>(_db, (current, includeProperty)
                 => includeProperty != null ? current.Include(includeProperty) : current);
-        
+
         if (orderBy != null)
         {
             query = orderBy(query);
         }
-        
+
         return query.Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .AsNoTracking();
     }
-    
+
     public async Task<T> AddAsync(T entity)
     {
         await _db.AddAsync(entity);
@@ -73,9 +75,9 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
             _db.Attach(entity);
             _db.Update(entity);
         }
-        
+
         entityEntry.State = EntityState.Modified;
-        
+
         return Task.CompletedTask;
     }
 

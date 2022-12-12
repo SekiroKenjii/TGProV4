@@ -1,4 +1,4 @@
-namespace TGProV4.Infrastructure.Contexts;
+﻿namespace TGProV4.Infrastructure.Contexts;
 
 public class ApplicationDbContext : AuditableDbContext
 {
@@ -11,12 +11,14 @@ public class ApplicationDbContext : AuditableDbContext
     }
 
     // public DbSet<Entity>? Entities { get; set; }
-    
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
         if (_currentUserService.UserId == null)
+        {
             return await base.SaveChangesAsync(cancellationToken);
-        
+        }
+
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
         {
             switch (entry.State)
@@ -30,7 +32,7 @@ public class ApplicationDbContext : AuditableDbContext
                     entry.Entity.LastModifiedOn = DateTimeOffset.Now;
                     entry.Entity.LastModifiedBy = _currentUserService.UserId;
                     break;
-                
+
                 case EntityState.Detached:
                 case EntityState.Unchanged:
                 case EntityState.Deleted:
@@ -38,39 +40,39 @@ public class ApplicationDbContext : AuditableDbContext
                     break;
             }
         }
-        
+
         return await base.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
     }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         foreach (var property in builder.Model.GetEntityTypes()
-            .SelectMany(type => type.GetProperties())
-            .Where(property => property.ClrType == typeof(decimal) || property.ClrType == typeof(decimal?)))
+                     .SelectMany(type => type.GetProperties())
+                     .Where(property => property.ClrType == typeof(decimal) || property.ClrType == typeof(decimal?)))
         {
             property.SetColumnType("decimal(18,2)");
         }
-        
+
         foreach (var property in builder.Model.GetEntityTypes()
-            .SelectMany(type => type.GetProperties())
-            .Where(property => property.Name is "LastModifiedBy" or "CreatedBy"))
+                     .SelectMany(type => type.GetProperties())
+                     .Where(property => property.Name is "LastModifiedBy" or "CreatedBy"))
         {
             property.SetColumnType("nvarchar(128)");
         }
-        
+
         base.OnModelCreating(builder);
-        
+
         builder.Entity<AppUser>(entity =>
         {
-            entity.ToTable(name: "Users", "Identity");
+            entity.ToTable("Users", "Identity");
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
         });
 
         builder.Entity<AppRole>(entity =>
         {
-            entity.ToTable(name: "Roles", "Identity");
+            entity.ToTable("Roles", "Identity");
         });
-        
+
         builder.Entity<IdentityUserRole<string>>(entity =>
         {
             entity.ToTable("UserRoles", "Identity");
@@ -88,17 +90,17 @@ public class ApplicationDbContext : AuditableDbContext
 
         builder.Entity<AppRoleClaim>(entity =>
         {
-            entity.ToTable(name: "RoleClaims", "Identity");
+            entity.ToTable("RoleClaims", "Identity");
 
             entity.HasOne(x => x.Role)
                 .WithMany(y => y.RoleClaims)
                 .HasForeignKey(x => x.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-        
+
         builder.Entity<AppUserToken>(entity =>
         {
-            entity.ToTable(name: "UserTokens", "Identity");
+            entity.ToTable("UserTokens", "Identity");
 
             entity.HasOne(x => x.User)
                 .WithMany(y => y.UserTokens)

@@ -1,9 +1,9 @@
-namespace TGProV4.Application.Interfaces.Repositories;
+﻿namespace TGProV4.Application.Interfaces.Repositories;
 
 public interface IRepositoryBase<T, in TId> where T : class, IEntity<TId>
 {
     IQueryable<T> Entities { get; }
-    
+
     Task<bool> IsEntityExists(Expression<Func<T, bool>> predicate);
 
     IQueryable<T> GetEntities(
@@ -11,7 +11,9 @@ public interface IRepositoryBase<T, in TId> where T : class, IEntity<TId>
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
         string includeProperties = "");
 
-    IQueryable<T> GetPagedResponse(int pageNumber, int pageSize,
+    IQueryable<T> GetPagedResponse(
+        int pageNumber,
+        int pageSize,
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
         string includeProperties = "");
 
