@@ -10,7 +10,7 @@ public static class ServiceCollectionExtensions
         services.Configure<AppConfiguration>(appSettingsConfiguration);
         return appSettingsConfiguration.Get<AppConfiguration>();
     }
-    
+
     public static void RegisterSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(options =>
@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
                 Scheme = "Bearer",
                 BearerFormat = "JWT"
             });
-            
+
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
@@ -62,13 +62,13 @@ public static class ServiceCollectionExtensions
         => services
             .AddDbContext<ApplicationDbContext>(options => options
                 .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-    
+
     public static void AddCurrentUserService(this IServiceCollection services)
     {
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
     }
-    
+
     public static void ConfigureRoute(this IServiceCollection services)
     {
         services.Configure<RouteOptions>(options =>
@@ -95,16 +95,16 @@ public static class ServiceCollectionExtensions
             options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         );
     }
-    
+
     public static void AddJwtAuthentication(this IServiceCollection services, AppConfiguration config)
     {
         var secret = config.Secret;
 
         if (string.IsNullOrEmpty(secret))
             throw new Exception(StringHelpers.MissedConfig("JWT"));
-        
+
         var key = Encoding.UTF8.GetBytes(secret);
-        
+
         services
             .AddAuthentication(authentication =>
             {
@@ -123,7 +123,7 @@ public static class ServiceCollectionExtensions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 };
-                
+
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -135,7 +135,7 @@ public static class ServiceCollectionExtensions
                     RoleClaimType = ClaimTypes.Role,
                     ClockSkew = TimeSpan.Zero
                 };
-                
+
                 options.Events = new JwtBearerEvents
                 {
                     OnAuthenticationFailed = context =>
@@ -148,25 +148,28 @@ public static class ServiceCollectionExtensions
                             var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
                             return context.Response.WriteAsync(result);
                         }
+                        else
+                        {
 #if DEBUG
-                        context.NoResult();
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        context.Response.ContentType = "text/plain";
-                        return context.Response.WriteAsync(context.Exception.ToString());
+                            context.NoResult();
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            context.Response.ContentType = "text/plain";
+                            return context.Response.WriteAsync(context.Exception.ToString());
 #else
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        context.Response.ContentType = "application/json";
-                        response.Message = ApplicationConstants.Messages.InternalServerError;
-                        var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
-                        return context.Response.WriteAsync(result);
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            context.Response.ContentType = "application/json";
+                            response.Message = ApplicationConstants.Messages.InternalServerError;
+                            var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
+                            return context.Response.WriteAsync(result);
 #endif
+                        }
                     },
                     OnChallenge = context =>
                     {
                         context.HandleResponse();
 
                         if (context.Response.HasStarted) return Task.CompletedTask;
-                        
+
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         context.Response.ContentType = "application/json";
                         response.Message = ApplicationConstants.Messages.Unauthorized;

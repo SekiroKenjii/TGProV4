@@ -17,17 +17,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{A10130
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{E0D859D9-C108-4D52-9548-5DD39ADCCC94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGProV4.Infrastructure", "src\TGProV4.Infrastructure\TGProV4.Infrastructure.csproj", "{012EE894-D147-4A66-BB50-4A12D8C7CBE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGProV4.Infrastructure", "src\TGProV4.Infrastructure\TGProV4.Infrastructure.csproj", "{012EE894-D147-4A66-BB50-4A12D8C7CBE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGProV4.Application", "src\TGProV4.Application\TGProV4.Application.csproj", "{CC4594C0-F0B9-4D69-B1B6-610DCB42A578}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGProV4.Application", "src\TGProV4.Application\TGProV4.Application.csproj", "{CC4594C0-F0B9-4D69-B1B6-610DCB42A578}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGProV4.Domain", "src\TGProV4.Domain\TGProV4.Domain.csproj", "{7D042A85-4693-4B95-B7B0-C54835B7DEAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGProV4.Domain", "src\TGProV4.Domain\TGProV4.Domain.csproj", "{7D042A85-4693-4B95-B7B0-C54835B7DEAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGProV4.Shared", "src\TGProV4.Shared\TGProV4.Shared.csproj", "{A40E2438-6B08-4DC4-BD07-CD9FB78C4B4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGProV4.Shared", "src\TGProV4.Shared\TGProV4.Shared.csproj", "{A40E2438-6B08-4DC4-BD07-CD9FB78C4B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGProV4.Server", "src\TGProV4.Server\TGProV4.Server.csproj", "{F7952B18-55C5-4A34-ADE6-5766922B0292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGProV4.Server", "src\TGProV4.Server\TGProV4.Server.csproj", "{F7952B18-55C5-4A34-ADE6-5766922B0292}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGProV4.Client", "src\TGProV4.Client\TGProV4.Client.csproj", "{05FB0240-DB27-4102-9B27-23BD8B2C6F4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGProV4.Client", "src\TGProV4.Client\TGProV4.Client.csproj", "{05FB0240-DB27-4102-9B27-23BD8B2C6F4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F384528-9077-42EF-BD2C-9937450B49E2}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
