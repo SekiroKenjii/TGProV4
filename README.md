@@ -32,8 +32,8 @@ dotnet run
 ```bash
 dotnet restore
 cd src
-dotnet ef migrations add InitialCreate -s TGProV4.Server -p TGProV4.Infrastructure
-dotnet ef database update
+dotnet ef migrations add InitialCreate -s TGProV4.Server -p TGProV4.Infrastructure -c ApplicationDbContext
+dotnet ef database update -s TGProV4.Server -p TGProV4.Infrastructure -c ApplicationDbContext
 ```
 
 ## License

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
-    <Using Include="TGProV4.Domain.Contracts"/>
+    <Using Include="TGProV4.Domain.Contracts" />
   </ItemGroup>
 
 </Project>

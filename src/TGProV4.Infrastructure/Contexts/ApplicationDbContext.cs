@@ -24,12 +24,12 @@ public class ApplicationDbContext : AuditableDbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedOn = DateTimeOffset.Now;
+                    entry.Entity.CreatedAt = DateTimeOffset.Now;
                     entry.Entity.CreatedBy = _currentUserService.UserId;
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedOn = DateTimeOffset.Now;
+                    entry.Entity.LastModifiedAt = DateTimeOffset.Now;
                     entry.Entity.LastModifiedBy = _currentUserService.UserId;
                     break;
 
@@ -46,22 +46,25 @@ public class ApplicationDbContext : AuditableDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        foreach (var property in builder.Model.GetEntityTypes()
-                     .SelectMany(type => type.GetProperties())
-                     .Where(property => property.ClrType == typeof(decimal) || property.ClrType == typeof(decimal?)))
+        var properties = builder.Model.GetEntityTypes()
+            .SelectMany(type => type.GetProperties())
+            .ToList();
+
+        foreach (var property in properties.Where(prop =>
+                     prop.ClrType == typeof(decimal) || prop.ClrType == typeof(decimal?)))
         {
             property.SetColumnType("decimal(18,2)");
         }
 
-        foreach (var property in builder.Model.GetEntityTypes()
-                     .SelectMany(type => type.GetProperties())
-                     .Where(property => property.Name is "LastModifiedBy" or "CreatedBy"))
+        foreach (var property in properties.Where(prop =>
+                     prop.DeclaringEntityType.Name is "CreatedBy" or "LastModifiedBy"))
         {
             property.SetColumnType("nvarchar(128)");
         }
 
         base.OnModelCreating(builder);
 
+        // AspNetCore Identity
         builder.Entity<AppUser>(entity =>
         {
             entity.ToTable("Users", "Identity");
@@ -97,15 +100,38 @@ public class ApplicationDbContext : AuditableDbContext
                 .HasForeignKey(x => x.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+        
+        builder.Entity<IdentityUserToken<string>>(entity =>
+        {
+            entity.ToTable("AspNetUserTokens", "Identity");
+        });
 
         builder.Entity<AppUserToken>(entity =>
         {
             entity.ToTable("UserTokens", "Identity");
 
+            entity.HasKey(x => x.Id);
+
             entity.HasOne(x => x.User)
                 .WithMany(y => y.UserTokens)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.Property(x => x.Token).IsRequired();
+            entity.Property(x => x.Expires).IsRequired().HasDefaultValue(DateTimeOffset.Now.AddDays(7));
+            entity.Property(x => x.Revoked).IsRequired(false);
         });
+
+        // Model Configurations
+        builder.ApplyConfiguration(new BrandConfiguration());
+        builder.ApplyConfiguration(new CategoryConfiguration());
+        builder.ApplyConfiguration(new ColorConfiguration());
+        builder.ApplyConfiguration(new ProductColorConfiguration());
+        builder.ApplyConfiguration(new ProductConditionConfiguration());
+        builder.ApplyConfiguration(new ProductConfiguration());
+        builder.ApplyConfiguration(new ProductDetailConfiguration());
+        builder.ApplyConfiguration(new ProductImageConfiguration());
+        builder.ApplyConfiguration(new ProductTypeConfiguration());
+        builder.ApplyConfiguration(new SubBrandConfiguration());
     }
 }

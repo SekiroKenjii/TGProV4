@@ -2,16 +2,21 @@
 
 public class AppUser : IdentityUser<string>, IAuditableEntity<string>
 {
+    public AppUser() : base()
+    {
+        UserTokens = new HashSet<AppUserToken>();
+    }
+    
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string? AvatarUrl { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
-    public DateTimeOffset CreatedOn { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
     public string LastModifiedBy { get; set; } = default!;
-    public DateTimeOffset? LastModifiedOn { get; set; }
+    public DateTimeOffset? LastModifiedAt { get; set; }
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
     public bool IsActive { get; set; }
 
-    public ICollection<AppUserToken> UserTokens { get; set; } = new HashSet<AppUserToken>();
+    public ICollection<AppUserToken> UserTokens { get; set; }
 }
