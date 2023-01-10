@@ -8,7 +8,7 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
 
     public UnitOfWork(ApplicationDbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public void Dispose()
@@ -17,18 +17,16 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (!_disposed)
         {
             if (disposing)
             {
-                //dispose managed resources
                 _context.Dispose();
             }
         }
 
-        //dispose unmanaged resources
         _disposed = true;
     }
 
@@ -38,12 +36,12 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
 
         var type = typeof(T).Name;
 
-        if (!_repositories.ContainsKey(type))
+        if (_repositories.ContainsKey(type))
         {
             return (IRepositoryBase<T, TId>)_repositories[type]!;
         }
 
-        var repositoryType = typeof(IRepositoryBase<,>);
+        var repositoryType = typeof(RepositoryBase<,>);
 
         var repositoryInstance = Activator.CreateInstance
         (

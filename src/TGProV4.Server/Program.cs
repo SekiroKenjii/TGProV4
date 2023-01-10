@@ -7,25 +7,33 @@ var config = builder.Configuration;
 var services = builder.Services;
 
 // Add services to the container.
-services.AddSerialization();
+services.AddCurrentUserService();
 
-services.AddApplicationLayer();
+services.AddSerialization();
 
 services.AddDatabase(config);
 
-services.AddCurrentUserService();
+services.AddApplicationLayer();
+
+services.AddIdentityUser();
+
+services.AddIdentityService();
 
 services.ConfigureFluentValidation();
 
 services.AddJwtAuthentication(services.GetApplicationSettings(config));
 
+services.AddInfrastructureMappers();
+
 services.AddRepositories();
 
 services.RegisterSwagger();
 
-services.AddEndpointsApiExplorer();
+services.ConfigApiVersioning();
 
 services.ConfigureRoute();
+
+services.AddEndpointsApiExplorer();
 
 // Web Application
 var app = builder.Build();

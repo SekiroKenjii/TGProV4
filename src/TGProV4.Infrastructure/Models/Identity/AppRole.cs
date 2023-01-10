@@ -10,6 +10,7 @@ public class AppRole : IdentityRole, IAuditableEntity<string>
     public AppRole(string roleName, string? roleDescription = null) : base(roleName)
     {
         Description = roleDescription;
+        RoleClaims = new HashSet<AppRoleClaim>();
     }
     
     public string? Description { get; set; }

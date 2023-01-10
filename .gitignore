@@ -454,4 +454,4 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 # Migrations
-src/TGProV4.Infrastucture/Migrations/
+src/TGProV4.Infrastructure/Migrations/

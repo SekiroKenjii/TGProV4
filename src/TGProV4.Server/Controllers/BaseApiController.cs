@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TGProV4.Server.Controllers;
 
@@ -7,6 +8,22 @@ namespace TGProV4.Server.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class BaseApiController : ControllerBase
+public abstract class BaseApiController : ControllerBase
 {
+    private IMediator? _mediatorInstance;
+
+    protected IMediator Mediator => _mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>()!;
+
+    protected ActionResult HandleResult<T>(T result, HttpStatusCode statusCode)
+    {
+        if (result is not null && !result.Equals(default))
+        {
+            return Ok(new Response<T> { Message = statusCode.ToString(), Data = result });
+        }
+
+        return BadRequest(new Response<string>
+        {
+            Succeeded = false, Data = default, Message = HttpStatusCode.BadRequest.ToString()
+        });
+    }
 }

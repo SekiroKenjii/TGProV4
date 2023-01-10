@@ -4,7 +4,7 @@ public class ProductTypeConfiguration : IEntityTypeConfiguration<ProductType>
 {
     public void Configure(EntityTypeBuilder<ProductType> builder)
     {
-        builder.ToTable("ProductTypes");
+        builder.ToTable("ProductTypes", "Production");
 
         builder.HasKey(x => x.Id);
         

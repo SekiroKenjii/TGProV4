@@ -4,7 +4,7 @@ public class ProductConditionConfiguration : IEntityTypeConfiguration<ProductCon
 {
     public void Configure(EntityTypeBuilder<ProductCondition> builder)
     {
-        builder.ToTable("ProductConditions");
+        builder.ToTable("ProductConditions", "Production");
 
         builder.HasKey(x => x.Id);
         

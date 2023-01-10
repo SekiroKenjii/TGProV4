@@ -10,7 +10,16 @@ public class ApplicationDbContext : AuditableDbContext
         _currentUserService = currentUserService;
     }
 
-    // public DbSet<Entity>? Entities { get; set; }
+    public DbSet<Brand>? Brands { get; set; }
+    public DbSet<Category>? Categories { get; set; }
+    public DbSet<Color>? Colors { get; set; }
+    public DbSet<Product>? Products { get; set; }
+    public DbSet<ProductColor>? ProductColors { get; set; }
+    public DbSet<ProductCondition>? ProductConditions { get; set; }
+    public DbSet<ProductDetail>? ProductDetails { get; set; }
+    public DbSet<ProductImage>? ProductImages { get; set; }
+    public DbSet<ProductType>? ProductTypes { get; set; }
+    public DbSet<SubBrand>? SubBrands { get; set; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
@@ -68,6 +77,7 @@ public class ApplicationDbContext : AuditableDbContext
         builder.Entity<AppUser>(entity =>
         {
             entity.ToTable("Users", "Identity");
+            
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
         });
 
@@ -100,24 +110,19 @@ public class ApplicationDbContext : AuditableDbContext
                 .HasForeignKey(x => x.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-        
-        builder.Entity<IdentityUserToken<string>>(entity =>
-        {
-            entity.ToTable("AspNetUserTokens", "Identity");
-        });
 
         builder.Entity<AppUserToken>(entity =>
         {
             entity.ToTable("UserTokens", "Identity");
 
             entity.HasKey(x => x.Id);
+            entity.Property(x => x.Id).ValueGeneratedOnAdd();
 
             entity.HasOne(x => x.User)
                 .WithMany(y => y.UserTokens)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            entity.Property(x => x.Token).IsRequired();
             entity.Property(x => x.Expires).IsRequired().HasDefaultValue(DateTimeOffset.Now.AddDays(7));
             entity.Property(x => x.Revoked).IsRequired(false);
         });

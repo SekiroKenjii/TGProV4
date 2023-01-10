@@ -3,7 +3,7 @@
 public class AuditableDbContext
     : IdentityDbContext<AppUser, AppRole, string,
         IdentityUserClaim<string>, IdentityUserRole<string>,
-        IdentityUserLogin<string>, AppRoleClaim, IdentityUserToken<string>>
+        IdentityUserLogin<string>, AppRoleClaim, AppUserToken>
 {
     protected AuditableDbContext(DbContextOptions options) : base(options)
     {

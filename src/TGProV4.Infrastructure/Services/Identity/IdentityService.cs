@@ -5,6 +5,7 @@ public class IdentityService : ITokenService
     private readonly UserManager<AppUser> _userManager;
     private readonly RoleManager<AppRole> _roleManager;
     private readonly AppConfiguration _appConfig;
+    private const string LoginProvider = "TGProV4.Identity";
 
     public IdentityService(
         UserManager<AppUser> userManager,
@@ -44,7 +45,10 @@ public class IdentityService : ITokenService
 
         var refreshToken = GenerateRefreshToken();
 
-        user.UserTokens.Add(new AppUserToken(refreshToken));
+        user.UserTokens.Add(new AppUserToken
+        {
+            LoginProvider = LoginProvider, Name = user.Email, Value = refreshToken
+        });
 
         await _userManager.UpdateAsync(user);
 
@@ -66,7 +70,7 @@ public class IdentityService : ITokenService
             return null;
         }
 
-        var oldToken = user.UserTokens.SingleOrDefault(x => x.Token == request.RefreshToken);
+        var oldToken = user.UserTokens.SingleOrDefault(x => x.Value == request.RefreshToken);
 
         if (oldToken is { IsActive: false })
         {
@@ -75,7 +79,10 @@ public class IdentityService : ITokenService
 
         var refreshToken = GenerateRefreshToken();
 
-        user.UserTokens.Add(new AppUserToken(refreshToken));
+        user.UserTokens.Add(new AppUserToken
+        {
+            LoginProvider = LoginProvider, Name = user.Email, Value = refreshToken
+        });
 
         await _userManager.UpdateAsync(user);
 

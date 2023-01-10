@@ -1,4 +1,6 @@
-﻿using JsonSerializer = System.Text.Json.JsonSerializer;
+﻿using Microsoft.AspNetCore.Identity;
+using TGProV4.Infrastructure.Models.Identity;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TGProV4.Server.Extensions;
 
@@ -15,44 +17,11 @@ public static class ServiceCollectionExtensions
 
     public static void RegisterSwagger(this IServiceCollection services)
     {
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1",
-                new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "TGProV4.CleanArchitecture",
-                    License = new OpenApiLicense
-                    {
-                        Name = "MIT License", Url = new Uri("https://opensource.org/licenses/MIT")
-                    }
-                });
-
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Description = @"<p>JWT Authorization header using the Bearer scheme.</br>
-                                Enter 'Bearer' [space] and then your token in the text input below.</br>
-                                Example: 'Bearer json-web-token'</p>",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer",
-                BearerFormat = "JWT"
-            });
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" },
-                        Scheme = "Bearer",
-                        Name = "Bearer",
-                        In = ParameterLocation.Header
-                    },
-                    new List<string>()
-                }
-            });
+            options.OperationFilter<SwaggerDefaultValues>();
         });
     }
 
@@ -61,6 +30,17 @@ public static class ServiceCollectionExtensions
         services
             .AddDbContext<ApplicationDbContext>(options => options
                 .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+    }
+
+    public static void AddIdentityUser(this IServiceCollection services)
+    {
+        services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
     }
 
     public static void AddCurrentUserService(this IServiceCollection services)
@@ -187,6 +167,22 @@ public static class ServiceCollectionExtensions
                         return context.Response.WriteAsync(result);
                     }
                 };
+            });
+    }
+
+    public static void ConfigApiVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
             });
     }
 }

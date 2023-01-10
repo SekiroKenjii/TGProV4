@@ -5,7 +5,7 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
     private readonly ApplicationDbContext _context;
     private readonly DbSet<T> _db;
 
-    protected RepositoryBase(ApplicationDbContext context)
+    public RepositoryBase(ApplicationDbContext context)
     {
         _context = context;
         _db = _context.Set<T>();
