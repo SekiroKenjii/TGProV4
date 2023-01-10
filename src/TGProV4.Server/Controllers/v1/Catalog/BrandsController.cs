@@ -6,9 +6,16 @@ namespace TGProV4.Server.Controllers.v1.Catalog;
 public class BrandsController : BaseApiController
 {
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetBrand(int id)
     {
-        var brand = await Mediator.Send(new GetBrandById { Id = id });
-        return HandleResult(brand, HttpStatusCode.OK);
+        var response = await Mediator.Send(new GetBrandById.Query { Id = id });
+        return HandleResult(response, HttpStatusCode.OK);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetBrands()
+    {
+        var response = await Mediator.Send(new GetBrands.Query());
+        return HandleResult(response, HttpStatusCode.OK);
     }
 }

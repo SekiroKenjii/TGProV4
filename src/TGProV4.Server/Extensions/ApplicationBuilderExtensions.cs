@@ -23,6 +23,18 @@ public static class ApplicationBuilderExtensions
         });
     }
 
+    public static void Initialize(this IApplicationBuilder app)
+    {
+        using var serviceScope = app.ApplicationServices.CreateScope();
+
+        var initializers = serviceScope.ServiceProvider.GetServices<IDataSeeder>();
+
+        foreach (var initializer in initializers)
+        {
+            initializer.Initialize();
+        }
+    }
+
     private static AppConfiguration GetApplicationSettings(IConfiguration configuration)
     {
         var appSettingsConfiguration = configuration.GetSection(nameof(AppConfiguration));

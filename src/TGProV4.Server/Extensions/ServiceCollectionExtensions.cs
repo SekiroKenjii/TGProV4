@@ -1,4 +1,6 @@
-﻿namespace TGProV4.Server.Extensions;
+﻿using TGProV4.Infrastructure.Services;
+
+namespace TGProV4.Server.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -25,7 +27,8 @@ public static class ServiceCollectionExtensions
     {
         services
             .AddDbContext<ApplicationDbContext>(options => options
-                .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                .UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
+            .AddTransient<IDataSeeder, DataSeeder>();
     }
 
     public static void AddIdentityUser(this IServiceCollection services)

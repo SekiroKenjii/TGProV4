@@ -2,6 +2,11 @@
 
 public static class ApplicationConstants
 {
+    public static class Secrets
+    {
+        public const string DefaultPassword = "P@ssw0rd1";
+    }
+    
     public static class Messages
     {
         public const string ValidationError = "One or more validation failures have occurred.";

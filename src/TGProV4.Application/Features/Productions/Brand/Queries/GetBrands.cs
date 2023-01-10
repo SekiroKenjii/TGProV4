@@ -1,15 +1,12 @@
-﻿using TGProV4.Shared.Helpers;
+﻿namespace TGProV4.Application.Features.Productions.Brand.Queries;
 
-namespace TGProV4.Application.Features.Productions.Brand.Queries;
-
-public class GetBrandById
+public class GetBrands
 {
-    public class Query : IRequest<QueryBrandResponse>
+    public class Query : IRequest<List<QueryBrandResponse>>
     {
-        public int Id { get; init; }
     }
 
-    internal class Handler : IRequestHandler<Query, QueryBrandResponse?>
+    internal class Handler : IRequestHandler<Query, List<QueryBrandResponse>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
 
@@ -18,10 +15,10 @@ public class GetBrandById
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<QueryBrandResponse?> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<List<QueryBrandResponse>> Handle(Query request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.Repository<Domain.Entities.Brand>()
-                .GetEntities(predicate: x => x.Id == request.Id)
+                .GetEntities()
                 .Select(x => new QueryBrandResponse
                 {
                     Id = x.Id,
@@ -30,7 +27,7 @@ public class GetBrandById
                     LogoId = x.LogoId,
                     LogoUrl = x.LogoUrl
                 })
-                .FirstOrDefaultAsync(cancellationToken);
+                .ToListAsync(cancellationToken);
         }
     }
 }

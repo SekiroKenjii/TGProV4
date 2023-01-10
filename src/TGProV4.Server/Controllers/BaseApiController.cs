@@ -18,7 +18,15 @@ public abstract class BaseApiController : ControllerBase
     {
         if (result is not null && !result.Equals(default))
         {
-            return Ok(new Response<T> { Message = statusCode.ToString(), Data = result });
+            return Ok(new Response<T> { Message = statusCode.ToString(), Data = result, Succeeded = true });
+        }
+
+        if (statusCode is HttpStatusCode.OK)
+        {
+            return NotFound(new Response<T>
+            {
+                Message = HttpStatusCode.NotFound.ToString(), Data = result, Succeeded = false
+            });
         }
 
         return BadRequest(new Response<string>

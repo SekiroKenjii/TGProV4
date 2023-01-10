@@ -55,22 +55,6 @@ public class ApplicationDbContext : AuditableDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        var properties = builder.Model.GetEntityTypes()
-            .SelectMany(type => type.GetProperties())
-            .ToList();
-
-        foreach (var property in properties.Where(prop =>
-                     prop.ClrType == typeof(decimal) || prop.ClrType == typeof(decimal?)))
-        {
-            property.SetColumnType("decimal(18,2)");
-        }
-
-        foreach (var property in properties.Where(prop =>
-                     prop.DeclaringEntityType.Name is "CreatedBy" or "LastModifiedBy"))
-        {
-            property.SetColumnType("nvarchar(128)");
-        }
-
         base.OnModelCreating(builder);
 
         // AspNetCore Identity
@@ -79,11 +63,21 @@ public class ApplicationDbContext : AuditableDbContext
             entity.ToTable("Users", "Identity");
             
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
+            
+            entity.Property(x => x.CreatedBy).IsRequired().HasColumnType("nvarchar(128)");
+            entity.Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTimeOffset.Now);
+            entity.Property(x => x.LastModifiedBy).IsRequired(false).HasColumnType("nvarchar(128)");
+            entity.Property(x => x.LastModifiedAt).IsRequired(false);
         });
 
         builder.Entity<AppRole>(entity =>
         {
             entity.ToTable("Roles", "Identity");
+            
+            entity.Property(x => x.CreatedBy).IsRequired().HasColumnType("nvarchar(128)");
+            entity.Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTimeOffset.Now);
+            entity.Property(x => x.LastModifiedBy).IsRequired(false).HasColumnType("nvarchar(128)");
+            entity.Property(x => x.LastModifiedAt).IsRequired(false);
         });
 
         builder.Entity<IdentityUserRole<string>>(entity =>
@@ -109,6 +103,11 @@ public class ApplicationDbContext : AuditableDbContext
                 .WithMany(y => y.RoleClaims)
                 .HasForeignKey(x => x.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            entity.Property(x => x.CreatedBy).IsRequired().HasColumnType("nvarchar(128)");
+            entity.Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTimeOffset.Now);
+            entity.Property(x => x.LastModifiedBy).IsRequired(false).HasColumnType("nvarchar(128)");
+            entity.Property(x => x.LastModifiedAt).IsRequired(false);
         });
 
         builder.Entity<AppUserToken>(entity =>

@@ -7,7 +7,7 @@ public interface IRepositoryBase<T, in TId> where T : class, IEntity<TId>
     Task<bool> IsEntityExists(Expression<Func<T, bool>> predicate);
 
     IQueryable<T> GetEntities(
-        Expression<Func<T, bool>>? expression = null,
+        Expression<Func<T, bool>>? predicate = null,
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
         string includeProperties = "");
 
