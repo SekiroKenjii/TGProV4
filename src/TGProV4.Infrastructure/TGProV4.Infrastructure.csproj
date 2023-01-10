@@ -34,6 +34,7 @@
     <Using Include="System.Collections" />
     <Using Include="System.IdentityModel.Tokens.Jwt" />
     <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Reflection" />
     <Using Include="System.Security.Claims" />
     <Using Include="System.Security.Cryptography" />
     <Using Include="System.Text" />
@@ -62,6 +63,7 @@
     <Using Include="TGProV4.Infrastructure.Models.Audit" />
     <Using Include="TGProV4.Infrastructure.Models.Identity" />
     <Using Include="TGProV4.Infrastructure.Repositories" />
+    <Using Include="TGProV4.Infrastructure.Services.Identity" />
     <Using Include="TGProV4.Shared.Constants.Application" />
     <Using Include="TGProV4.Shared.Helpers" />
   </ItemGroup>

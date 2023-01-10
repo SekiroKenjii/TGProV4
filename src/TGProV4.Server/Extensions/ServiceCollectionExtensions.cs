@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using TGProV4.Infrastructure.Models.Identity;
-using JsonSerializer = System.Text.Json.JsonSerializer;
-
-namespace TGProV4.Server.Extensions;
+﻿namespace TGProV4.Server.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -98,14 +94,9 @@ public static class ServiceCollectionExtensions
             {
                 var response = new Response<string> { Succeeded = false, Data = default };
 
-                var jsonSerializerOptions = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
-
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -124,7 +115,7 @@ public static class ServiceCollectionExtensions
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             context.Response.ContentType = "application/json";
                             response.Message = ApplicationConstants.Messages.TokenExpired;
-                            var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
+                            var result = JsonConvert.SerializeObject(response);
                             return context.Response.WriteAsync(result);
                         }
                         else
@@ -138,7 +129,7 @@ public static class ServiceCollectionExtensions
                             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                             context.Response.ContentType = "application/json";
                             response.Message = ApplicationConstants.Messages.InternalServerError;
-                            var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
+                            var result = JsonConvert.SerializeObject(response);
                             return context.Response.WriteAsync(result);
 #endif
                         }
@@ -155,7 +146,7 @@ public static class ServiceCollectionExtensions
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         context.Response.ContentType = "application/json";
                         response.Message = ApplicationConstants.Messages.Unauthorized;
-                        var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
+                        var result = JsonConvert.SerializeObject(response);
                         return context.Response.WriteAsync(result);
                     },
                     OnForbidden = context =>
@@ -163,7 +154,7 @@ public static class ServiceCollectionExtensions
                         context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                         context.Response.ContentType = "application/json";
                         response.Message = ApplicationConstants.Messages.Forbidden;
-                        var result = JsonSerializer.Serialize(response, jsonSerializerOptions);
+                        var result = JsonConvert.SerializeObject(response);
                         return context.Response.WriteAsync(result);
                     }
                 };

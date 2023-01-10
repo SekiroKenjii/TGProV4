@@ -52,31 +52,12 @@ public class ErrorHandlerMiddleware
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 response.Message = "Internal server error";
-                HandleStackTrace(response.Errors, exception);
+                response.Errors.HandleStackTrace(exception);
                 break;
         }
 
-        var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
-        var json = System.Text.Json.JsonSerializer.Serialize(response, options);
+        var json = JsonConvert.SerializeObject(response);
 
         await context.Response.WriteAsync(json);
-    }
-
-    private static void HandleStackTrace(ICollection<BaseError> errors, Exception exception)
-    {
-        var stackTrace = new StackTrace(exception, true);
-
-        for (var i = 0; i < stackTrace.FrameCount; i++)
-        {
-            var stackFrame = stackTrace.GetFrame(i);
-
-            errors.Add(new BaseSystemError
-            {
-                FileName = stackFrame?.GetFileName(),
-                Method = stackFrame?.GetMethod()?.ToString(),
-                LineNumber = stackFrame?.GetFileLineNumber().ToString()
-            });
-        }
     }
 }

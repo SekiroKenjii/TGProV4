@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using TGProV4.Infrastructure.Services.Identity;
-
-namespace TGProV4.Infrastructure.Extensions;
+﻿namespace TGProV4.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
