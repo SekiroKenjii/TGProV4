@@ -46,7 +46,9 @@
     <Using Include="System.Text.Json"/>
     <Using Include="FluentValidation"/>
     <Using Include="FluentValidation.AspNetCore"/>
+    <Using Include="Microsoft.AspNetCore.Authorization"/>
     <Using Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
+    <Using Include="Microsoft.AspNetCore.Mvc"/>
     <Using Include="Microsoft.AspNetCore.Mvc.ApiExplorer"/>
     <Using Include="Microsoft.AspNetCore.Identity"/>
     <Using Include="Microsoft.EntityFrameworkCore"/>
@@ -59,6 +61,7 @@
     <Using Include="TGProV4.Application.Configurations"/>
     <Using Include="TGProV4.Application.Exceptions"/>
     <Using Include="TGProV4.Application.Extensions"/>
+    <Using Include="TGProV4.Application.Features.Productions.Brand.Queries"/>
     <Using Include="TGProV4.Application.Interfaces.Services"/>
     <Using Include="TGProV4.Infrastructure.Contexts"/>
     <Using Include="TGProV4.Infrastructure.Extensions"/>

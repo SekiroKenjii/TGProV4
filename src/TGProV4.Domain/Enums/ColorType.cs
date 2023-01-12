@@ -2,8 +2,8 @@ namespace TGProV4.Domain.Enums;
 
 public enum ColorType
 {
-    HEX,
-    HSL,
-    RGB,
-    RGBA
+    HEX = 0,
+    HSL = 1,
+    RGB = 2,
+    RGBA = 3
 }

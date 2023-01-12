@@ -1,6 +1,6 @@
 namespace TGProV4.Application.Responses.Production.Brand;
 
-public class QueryBrandResponse
+public class BrandResponse
 {
     public int Id { get; set; }
     public string? Name { get; set; }

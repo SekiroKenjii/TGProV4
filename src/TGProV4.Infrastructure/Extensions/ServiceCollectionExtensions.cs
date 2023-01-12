@@ -15,6 +15,11 @@ public static class ServiceCollectionExtensions
            .AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
     }
 
+    public static void AddCloudService(this IServiceCollection services)
+    {
+        services.AddTransient(typeof(IImageService<>), typeof(ImageService<>));
+    }
+
     public static void AddIdentityService(this IServiceCollection services)
     {
         services

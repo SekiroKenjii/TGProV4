@@ -10,42 +10,46 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2"/>
-    <PackageReference Include="MediatR" Version="11.0.0"/>
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10"/>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TGProV4.Domain\TGProV4.Domain.csproj"/>
-    <ProjectReference Include="..\TGProV4.Shared\TGProV4.Shared.csproj"/>
+    <ProjectReference Include="..\TGProV4.Domain\TGProV4.Domain.csproj" />
+    <ProjectReference Include="..\TGProV4.Shared\TGProV4.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
-    <Using Include="System.Linq.Expressions"/>
-    <Using Include="System.Reflection"/>
-    <Using Include="AutoMapper"/>
-    <Using Include="FluentValidation.Results"/>
-    <Using Include="MediatR"/>
-    <Using Include="Microsoft.EntityFrameworkCore"/>
-    <Using Include="Microsoft.Extensions.DependencyInjection"/>
-    <Using Include="TGProV4.Domain.Contracts"/>
-    <Using Include="TGProV4.Domain.Entities"/>
-    <Using Include="TGProV4.Application.Exceptions"/>
-    <Using Include="TGProV4.Application.Interfaces.Repositories"/>
-    <Using Include="TGProV4.Application.Requests.Identity"/>
-    <Using Include="TGProV4.Application.Responses.Identity"/>
-    <Using Include="TGProV4.Application.Responses.Production.Brand"/>
-    <Using Include="TGProV4.Shared.Constants.Application"/>
-    <Using Include="TGProV4.Shared.Wrapper"/>
-    <Using Include="TGProV4.Shared.Wrapper.Base"/>
+    <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Reflection" />
+    <Using Include="AutoMapper" />
+    <Using Include="FluentValidation.Results" />
+    <Using Include="MediatR" />
+    <Using Include="Microsoft.AspNetCore.Http" />
+    <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="TGProV4.Domain.Contracts" />
+    <Using Include="TGProV4.Domain.Entities" />
+    <Using Include="TGProV4.Application.Exceptions" />
+    <Using Include="TGProV4.Application.Interfaces.Repositories" />
+    <Using Include="TGProV4.Application.Requests" />
+    <Using Include="TGProV4.Application.Requests.Identity" />
+    <Using Include="TGProV4.Application.Responses" />
+    <Using Include="TGProV4.Application.Responses.Identity" />
+    <Using Include="TGProV4.Application.Responses.Production.Brand" />
+    <Using Include="TGProV4.Shared.Constants.Application" />
+    <Using Include="TGProV4.Shared.Wrapper" />
+    <Using Include="TGProV4.Shared.Wrapper.Base" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Sales"/>
-    <Folder Include="Validators\Custom"/>
+    <Folder Include="Features\Sales" />
+    <Folder Include="Validators\Custom" />
   </ItemGroup>
 
 </Project>

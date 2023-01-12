@@ -1,15 +1,22 @@
+using System.Reflection;
 using TGProV4.Infrastructure.Services;
 
 namespace TGProV4.Server.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static AppConfiguration GetApplicationSettings(this IServiceCollection services,
-                                                          IConfiguration configuration)
+    public static AppConfiguration GetApplicationConfigurations(this IServiceCollection services,
+                                                                IConfiguration configuration)
     {
-        var appSettingsConfiguration = configuration.GetSection(nameof(AppConfiguration));
-        services.Configure<AppConfiguration>(appSettingsConfiguration);
-        return appSettingsConfiguration.Get<AppConfiguration>();
+        var appConfig = configuration.GetSection(nameof(AppConfiguration));
+        services.Configure<AppConfiguration>(appConfig);
+        return appConfig.Get<AppConfiguration>();
+    }
+
+    public static void ConfigureCloudinaryService(this IServiceCollection services, IConfiguration configuration)
+    {
+        var cloudinaryConfig = configuration.GetSection(nameof(CloudinaryConfiguration));
+        services.Configure<CloudinaryConfiguration>(cloudinaryConfig);
     }
 
     public static void RegisterSwagger(this IServiceCollection services)
@@ -135,9 +142,26 @@ public static class ServiceCollectionExtensions
                     }
                 };
             });
+
+        services.AddAuthorization(options => {
+            foreach (var field in typeof(ApplicationPermissions).GetNestedTypes()
+                                                                .SelectMany(c
+                                                                     => c.GetFields(BindingFlags.Public |
+                                                                         BindingFlags.Static |
+                                                                         BindingFlags.FlattenHierarchy)))
+            {
+                var propertyValue = field.GetValue(null);
+
+                if (propertyValue is not null)
+                {
+                    options.AddPolicy(propertyValue.ToString()!,
+                        policy => policy.RequireClaim("Permission", propertyValue.ToString()!));
+                }
+            }
+        });
     }
 
-    public static void ConfigApiVersioning(this IServiceCollection services)
+    public static void ConfigureApiVersioning(this IServiceCollection services)
     {
         services
            .AddApiVersioning(options => {

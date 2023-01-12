@@ -8,8 +8,8 @@ public static class ApplicationPermissions
     [Description("Brands Permissions")]
     public static class Brands
     {
-        public const string View = "Permissions.Brands.View";
         public const string Create = "Permissions.Brands.Create";
+        public const string Read = "Permissions.Brands.Read";
         public const string Update = "Permissions.Brands.Update";
         public const string Delete = "Permissions.Brands.Delete";
         public const string Export = "Permissions.Brands.Export";
