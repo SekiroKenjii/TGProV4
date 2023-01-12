@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Infrastructure.Configurations;
+namespace TGProV4.Infrastructure.Configurations;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
@@ -9,13 +9,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasKey(x => x.Id);
 
         builder.HasOne(x => x.SubBrand)
-            .WithMany(x => x.Products)
-            .HasForeignKey(x => x.SubBrandId)
-            .OnDelete(DeleteBehavior.NoAction);
+               .WithMany(x => x.Products)
+               .HasForeignKey(x => x.SubBrandId)
+               .OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(x => x.Category)
-            .WithMany(x => x.Products)
-            .HasForeignKey(x => x.CategoryId)
-            .OnDelete(DeleteBehavior.NoAction);
+               .WithMany(x => x.Products)
+               .HasForeignKey(x => x.CategoryId)
+               .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(50)");
         builder.Property(x => x.CategoryId).IsRequired(false);

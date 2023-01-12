@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Application.Responses.Identity;
+namespace TGProV4.Application.Responses.Identity;
 
 public class TokenResponse
 {

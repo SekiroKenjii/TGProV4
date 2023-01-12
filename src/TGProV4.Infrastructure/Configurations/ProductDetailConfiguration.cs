@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Infrastructure.Configurations;
+namespace TGProV4.Infrastructure.Configurations;
 
 public class ProductDetailConfiguration : IEntityTypeConfiguration<ProductDetail>
 {
@@ -9,17 +9,17 @@ public class ProductDetailConfiguration : IEntityTypeConfiguration<ProductDetail
         builder.HasKey(x => x.Id);
 
         builder.HasOne(x => x.Product)
-            .WithMany(x => x.ProductDetails)
-            .HasForeignKey(x => x.ProductId)
-            .OnDelete(DeleteBehavior.NoAction);
+               .WithMany(x => x.ProductDetails)
+               .HasForeignKey(x => x.ProductId)
+               .OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(x => x.Condition)
-            .WithMany(x => x.Products)
-            .HasForeignKey(x => x.ConditionId)
-            .OnDelete(DeleteBehavior.NoAction);
+               .WithMany(x => x.Products)
+               .HasForeignKey(x => x.ConditionId)
+               .OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(x => x.Type)
-            .WithMany(x => x.Products)
-            .HasForeignKey(x => x.TypeId)
-            .OnDelete(DeleteBehavior.NoAction);
+               .WithMany(x => x.Products)
+               .HasForeignKey(x => x.TypeId)
+               .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(x => x.ProductId).IsRequired(false);
         builder.Property(x => x.ConditionId).IsRequired(false);
@@ -28,8 +28,14 @@ public class ProductDetailConfiguration : IEntityTypeConfiguration<ProductDetail
         builder.Property(x => x.Specification).IsRequired().HasColumnType("nvarchar(max)");
         builder.Property(x => x.Description).IsRequired().HasColumnType("nvarchar(max)");
         builder.Property(x => x.Warranty).IsRequired().HasColumnType("nvarchar(max)");
-        builder.Property(x => x.Price).IsRequired().HasColumnType("decimal(18,2)").HasDefaultValue(0m);
-        builder.Property(x => x.OriginalPrice).IsRequired().HasColumnType("decimal(18,2)").HasDefaultValue(0m);
+        builder.Property(x => x.Price)
+               .IsRequired()
+               .HasColumnType("decimal(18,2)")
+               .HasDefaultValue(0m);
+        builder.Property(x => x.OriginalPrice)
+               .IsRequired()
+               .HasColumnType("decimal(18,2)")
+               .HasDefaultValue(0m);
         builder.Property(x => x.UnitsInStock).IsRequired().HasDefaultValue(0);
         builder.Property(x => x.UnitsOnOrder).IsRequired().HasDefaultValue(0);
         builder.Property(x => x.Discontinued).IsRequired();

@@ -10,15 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="AutoMapper" Version="12.0.0"/>
+    <PackageReference Include="JetBrains.Annotations" Version="2022.3.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,50 +27,51 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TGProV4.Application\TGProV4.Application.csproj" />
-    <ProjectReference Include="..\TGProV4.Domain\TGProV4.Domain.csproj" />
+    <ProjectReference Include="..\TGProV4.Application\TGProV4.Application.csproj"/>
+    <ProjectReference Include="..\TGProV4.Domain\TGProV4.Domain.csproj"/>
   </ItemGroup>
 
   <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
-    <Using Include="System.Collections" />
-    <Using Include="System.IdentityModel.Tokens.Jwt" />
-    <Using Include="System.Linq.Expressions" />
-    <Using Include="System.Reflection" />
-    <Using Include="System.Security.Claims" />
-    <Using Include="System.Security.Cryptography" />
-    <Using Include="System.Text" />
-    <Using Include="AutoMapper" />
-    <Using Include="Microsoft.AspNetCore.Identity" />
-    <Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
-    <Using Include="Microsoft.EntityFrameworkCore" />
-    <Using Include="Microsoft.EntityFrameworkCore.ChangeTracking" />
-    <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
-    <Using Include="Microsoft.Extensions.DependencyInjection" />
-    <Using Include="Microsoft.Extensions.Options" />
-    <Using Include="Microsoft.IdentityModel.Tokens" />
-    <Using Include="Newtonsoft.Json" />
-    <Using Include="TGProV4.Application.Configurations" />
-    <Using Include="TGProV4.Application.Exceptions" />
-    <Using Include="TGProV4.Application.Interfaces.Repositories" />
-    <Using Include="TGProV4.Application.Interfaces.Services" />
-    <Using Include="TGProV4.Application.Interfaces.Services.Identity" />
-    <Using Include="TGProV4.Application.Requests.Identity" />
-    <Using Include="TGProV4.Application.Responses.Identity" />
-    <Using Include="TGProV4.Domain.Contracts" />
-    <Using Include="TGProV4.Domain.Enums" />
-    <Using Include="TGProV4.Domain.Entities" />
-    <Using Include="TGProV4.Infrastructure.Configurations" />
-    <Using Include="TGProV4.Infrastructure.Contexts" />
-    <Using Include="TGProV4.Infrastructure.Models.Audit" />
-    <Using Include="TGProV4.Infrastructure.Models.Identity" />
-    <Using Include="TGProV4.Infrastructure.Repositories" />
-    <Using Include="TGProV4.Infrastructure.Services.Identity" />
-    <Using Include="TGProV4.Shared.Constants.Application" />
-    <Using Include="TGProV4.Shared.Helpers" />
+    <Using Include="System.Collections"/>
+    <Using Include="System.IdentityModel.Tokens.Jwt"/>
+    <Using Include="System.Linq.Expressions"/>
+    <Using Include="System.Reflection"/>
+    <Using Include="System.Security.Claims"/>
+    <Using Include="System.Security.Cryptography"/>
+    <Using Include="System.Text"/>
+    <Using Include="AutoMapper"/>
+    <Using Include="JetBrains.Annotations"/>
+    <Using Include="Microsoft.AspNetCore.Identity"/>
+    <Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"/>
+    <Using Include="Microsoft.EntityFrameworkCore"/>
+    <Using Include="Microsoft.EntityFrameworkCore.ChangeTracking"/>
+    <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders"/>
+    <Using Include="Microsoft.Extensions.DependencyInjection"/>
+    <Using Include="Microsoft.Extensions.Options"/>
+    <Using Include="Microsoft.IdentityModel.Tokens"/>
+    <Using Include="Newtonsoft.Json"/>
+    <Using Include="TGProV4.Application.Configurations"/>
+    <Using Include="TGProV4.Application.Exceptions"/>
+    <Using Include="TGProV4.Application.Interfaces.Repositories"/>
+    <Using Include="TGProV4.Application.Interfaces.Services"/>
+    <Using Include="TGProV4.Application.Interfaces.Services.Identity"/>
+    <Using Include="TGProV4.Application.Requests.Identity"/>
+    <Using Include="TGProV4.Application.Responses.Identity"/>
+    <Using Include="TGProV4.Domain.Contracts"/>
+    <Using Include="TGProV4.Domain.Enums"/>
+    <Using Include="TGProV4.Domain.Entities"/>
+    <Using Include="TGProV4.Infrastructure.Configurations"/>
+    <Using Include="TGProV4.Infrastructure.Contexts"/>
+    <Using Include="TGProV4.Infrastructure.Models.Audit"/>
+    <Using Include="TGProV4.Infrastructure.Models.Identity"/>
+    <Using Include="TGProV4.Infrastructure.Repositories"/>
+    <Using Include="TGProV4.Infrastructure.Services.Identity"/>
+    <Using Include="TGProV4.Shared.Constants.Application"/>
+    <Using Include="TGProV4.Shared.Helpers"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations" />
+    <Folder Include="Migrations"/>
   </ItemGroup>
 
 </Project>

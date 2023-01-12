@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Infrastructure.Extensions;
+namespace TGProV4.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -10,15 +10,15 @@ public static class ServiceCollectionExtensions
     public static void AddRepositories(this IServiceCollection services)
     {
         services
-            .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
-            .AddTransient<IBrandRepository, BrandRepository>()
-            .AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+           .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
+           .AddTransient<IBrandRepository, BrandRepository>()
+           .AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
     }
 
     public static void AddIdentityService(this IServiceCollection services)
     {
         services
-            .AddTransient<ITokenService, IdentityService>()
-            .AddTransient<IUserService, UserService>();
+           .AddTransient<ITokenService, IdentityService>()
+           .AddTransient<IUserService, UserService>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Application.Responses.Production.Brand;
+namespace TGProV4.Application.Responses.Production.Brand;
 
 public class QueryBrandResponse
 {

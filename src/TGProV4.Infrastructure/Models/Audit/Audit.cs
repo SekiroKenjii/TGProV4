@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Infrastructure.Models.Audit;
+namespace TGProV4.Infrastructure.Models.Audit;
 
 public class Audit : IEntity<int>
 {

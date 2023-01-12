@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Infrastructure.Configurations;
+namespace TGProV4.Infrastructure.Configurations;
 
 public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImage>
 {
@@ -7,10 +7,12 @@ public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImage>
         builder.ToTable("ProductImages", "Production");
 
         builder.HasKey(x => x.Id);
-        
-        builder.HasOne(x => x.Product).WithMany(x => x.Images)
-            .HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.NoAction);
-        
+
+        builder.HasOne(x => x.Product)
+               .WithMany(x => x.Images)
+               .HasForeignKey(x => x.ProductId)
+               .OnDelete(DeleteBehavior.NoAction);
+
         builder.Property(x => x.ImageUrl).IsRequired().HasColumnType("nvarchar(255)");
         builder.Property(x => x.ImageId).IsRequired().HasColumnType("nvarchar(200)");
         builder.Property(x => x.Caption).IsRequired().HasColumnType("nvarchar(100)");

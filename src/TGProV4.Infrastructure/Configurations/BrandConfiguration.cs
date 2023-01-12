@@ -1,13 +1,13 @@
-﻿namespace TGProV4.Infrastructure.Configurations;
+namespace TGProV4.Infrastructure.Configurations;
 
 public class BrandConfiguration : IEntityTypeConfiguration<Brand>
 {
     public void Configure(EntityTypeBuilder<Brand> builder)
     {
         builder.ToTable("Brands", "Production");
-        
+
         builder.HasKey(x => x.Id);
-        
+
         builder.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(50)");
         builder.Property(x => x.LogoUrl).IsRequired().HasColumnType("nvarchar(255)");
         builder.Property(x => x.LogoId).IsRequired().HasColumnType("nvarchar(200)");

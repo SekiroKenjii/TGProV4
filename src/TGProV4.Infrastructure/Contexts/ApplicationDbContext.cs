@@ -1,25 +1,22 @@
-﻿namespace TGProV4.Infrastructure.Contexts;
+namespace TGProV4.Infrastructure.Contexts;
 
 public class ApplicationDbContext : AuditableDbContext
 {
     private readonly ICurrentUserService _currentUserService;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ICurrentUserService currentUserService)
-        : base(options)
-    {
-        _currentUserService = currentUserService;
-    }
+        : base(options) => _currentUserService = currentUserService;
 
-    public DbSet<Brand>? Brands { get; set; }
-    public DbSet<Category>? Categories { get; set; }
-    public DbSet<Color>? Colors { get; set; }
-    public DbSet<Product>? Products { get; set; }
-    public DbSet<ProductColor>? ProductColors { get; set; }
-    public DbSet<ProductCondition>? ProductConditions { get; set; }
-    public DbSet<ProductDetail>? ProductDetails { get; set; }
-    public DbSet<ProductImage>? ProductImages { get; set; }
-    public DbSet<ProductType>? ProductTypes { get; set; }
-    public DbSet<SubBrand>? SubBrands { get; set; }
+    public DbSet<Brand>? Brands { get; [UsedImplicitly] set; }
+    public DbSet<Category>? Categories { get; [UsedImplicitly] set; }
+    public DbSet<Color>? Colors { get; [UsedImplicitly] set; }
+    public DbSet<Product>? Products { get; [UsedImplicitly] set; }
+    public DbSet<ProductColor>? ProductColors { get; [UsedImplicitly] set; }
+    public DbSet<ProductCondition>? ProductConditions { get; [UsedImplicitly] set; }
+    public DbSet<ProductDetail>? ProductDetails { get; [UsedImplicitly] set; }
+    public DbSet<ProductImage>? ProductImages { get; [UsedImplicitly] set; }
+    public DbSet<ProductType>? ProductTypes { get; [UsedImplicitly] set; }
+    public DbSet<SubBrand>? SubBrands { get; [UsedImplicitly] set; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
@@ -29,7 +26,6 @@ public class ApplicationDbContext : AuditableDbContext
         }
 
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
-        {
             switch (entry.State)
             {
                 case EntityState.Added:
@@ -48,7 +44,6 @@ public class ApplicationDbContext : AuditableDbContext
                 default:
                     break;
             }
-        }
 
         return await base.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
     }
@@ -58,71 +53,60 @@ public class ApplicationDbContext : AuditableDbContext
         base.OnModelCreating(builder);
 
         // AspNetCore Identity
-        builder.Entity<AppUser>(entity =>
-        {
+        builder.Entity<AppUser>(entity => {
             entity.ToTable("Users", "Identity");
-            
+
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
-            
+
             entity.Property(x => x.CreatedBy).IsRequired().HasColumnType("nvarchar(128)");
             entity.Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTimeOffset.Now);
             entity.Property(x => x.LastModifiedBy).IsRequired(false).HasColumnType("nvarchar(128)");
             entity.Property(x => x.LastModifiedAt).IsRequired(false);
         });
 
-        builder.Entity<AppRole>(entity =>
-        {
+        builder.Entity<AppRole>(entity => {
             entity.ToTable("Roles", "Identity");
-            
+
             entity.Property(x => x.CreatedBy).IsRequired().HasColumnType("nvarchar(128)");
             entity.Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTimeOffset.Now);
             entity.Property(x => x.LastModifiedBy).IsRequired(false).HasColumnType("nvarchar(128)");
             entity.Property(x => x.LastModifiedAt).IsRequired(false);
         });
 
-        builder.Entity<IdentityUserRole<string>>(entity =>
-        {
-            entity.ToTable("UserRoles", "Identity");
-        });
+        builder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles", "Identity"); });
 
-        builder.Entity<IdentityUserClaim<string>>(entity =>
-        {
-            entity.ToTable("UserClaims", "Identity");
-        });
+        builder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims", "Identity"); });
 
-        builder.Entity<IdentityUserLogin<string>>(entity =>
-        {
-            entity.ToTable("UserLogins", "Identity");
-        });
+        builder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins", "Identity"); });
 
-        builder.Entity<AppRoleClaim>(entity =>
-        {
+        builder.Entity<AppRoleClaim>(entity => {
             entity.ToTable("RoleClaims", "Identity");
 
             entity.HasOne(x => x.Role)
-                .WithMany(y => y.RoleClaims)
-                .HasForeignKey(x => x.RoleId)
-                .OnDelete(DeleteBehavior.Cascade);
-            
+                  .WithMany(y => y.RoleClaims)
+                  .HasForeignKey(x => x.RoleId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
             entity.Property(x => x.CreatedBy).IsRequired().HasColumnType("nvarchar(128)");
             entity.Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTimeOffset.Now);
             entity.Property(x => x.LastModifiedBy).IsRequired(false).HasColumnType("nvarchar(128)");
             entity.Property(x => x.LastModifiedAt).IsRequired(false);
         });
 
-        builder.Entity<AppUserToken>(entity =>
-        {
+        builder.Entity<AppUserToken>(entity => {
             entity.ToTable("UserTokens", "Identity");
 
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
 
             entity.HasOne(x => x.User)
-                .WithMany(y => y.UserTokens)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                  .WithMany(y => y.UserTokens)
+                  .HasForeignKey(x => x.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
-            entity.Property(x => x.Expires).IsRequired().HasDefaultValue(DateTimeOffset.Now.AddDays(7));
+            entity.Property(x => x.Expires)
+                  .IsRequired()
+                  .HasDefaultValue(DateTimeOffset.Now.AddDays(7));
             entity.Property(x => x.Revoked).IsRequired(false);
         });
 

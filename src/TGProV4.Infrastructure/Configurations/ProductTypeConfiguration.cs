@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Infrastructure.Configurations;
+namespace TGProV4.Infrastructure.Configurations;
 
 public class ProductTypeConfiguration : IEntityTypeConfiguration<ProductType>
 {
@@ -7,7 +7,7 @@ public class ProductTypeConfiguration : IEntityTypeConfiguration<ProductType>
         builder.ToTable("ProductTypes", "Production");
 
         builder.HasKey(x => x.Id);
-        
+
         builder.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(50)");
         builder.Property(x => x.Description).IsRequired(false).HasColumnType("nvarchar(500)");
         builder.Property(x => x.CreatedBy).IsRequired().HasColumnType("nvarchar(128)");

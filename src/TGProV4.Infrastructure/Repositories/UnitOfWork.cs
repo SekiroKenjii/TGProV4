@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Infrastructure.Repositories;
+namespace TGProV4.Infrastructure.Repositories;
 
 public class UnitOfWork<TId> : IUnitOfWork<TId>
 {
@@ -7,9 +7,7 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
     private Hashtable? _repositories;
 
     public UnitOfWork(ApplicationDbContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+        => _context = context ?? throw new ArgumentNullException(nameof(context));
 
     public void Dispose()
     {
@@ -38,20 +36,17 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
 
         if (_repositories.ContainsKey(type))
         {
-            return (IRepositoryBase<T, TId>)_repositories[type]!;
+            return (IRepositoryBase<T, TId>) _repositories[type]!;
         }
 
         var repositoryType = typeof(RepositoryBase<,>);
 
-        var repositoryInstance = Activator.CreateInstance
-        (
-            repositoryType.MakeGenericType(typeof(T), typeof(TId)),
-            _context
-        );
+        var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T), typeof(TId)),
+            _context);
 
         _repositories.Add(type, repositoryInstance);
 
-        return (IRepositoryBase<T, TId>)_repositories[type]!;
+        return (IRepositoryBase<T, TId>) _repositories[type]!;
     }
 
     public async Task<int> Commit(CancellationToken cancellationToken)

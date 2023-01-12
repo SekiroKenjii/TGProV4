@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Server.OpenApi;
+namespace TGProV4.Server.OpenApi;
 
 public class SwaggerDefaultValues : IOperationFilter
 {

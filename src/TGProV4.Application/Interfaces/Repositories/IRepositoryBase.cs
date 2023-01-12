@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Application.Interfaces.Repositories;
+namespace TGProV4.Application.Interfaces.Repositories;
 
 public interface IRepositoryBase<T, in TId> where T : class, IEntity<TId>
 {
@@ -6,16 +6,14 @@ public interface IRepositoryBase<T, in TId> where T : class, IEntity<TId>
 
     Task<bool> IsEntityExists(Expression<Func<T, bool>> predicate);
 
-    IQueryable<T> GetEntities(
-        Expression<Func<T, bool>>? predicate = null,
-        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-        string includeProperties = "");
+    IQueryable<T> GetEntities(Expression<Func<T, bool>>? predicate = null,
+                              Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                              string includeProperties = "");
 
-    IQueryable<T> GetPagedResponse(
-        int pageNumber,
-        int pageSize,
-        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-        string includeProperties = "");
+    IQueryable<T> GetPagedResponse(int pageNumber,
+                                   int pageSize,
+                                   Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                                   string includeProperties = "");
 
     Task<T> AddAsync(T entity);
 

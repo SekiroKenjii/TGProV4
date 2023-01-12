@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Domain.Entities;
+namespace TGProV4.Domain.Entities;
 
 public class SubBrand : AuditableEntity<int>
 {
@@ -10,6 +10,6 @@ public class SubBrand : AuditableEntity<int>
 
     public int? CategoryId { get; set; }
     public virtual Category? Category { get; set; }
-    
+
     public virtual ICollection<Product>? Products { get; set; }
 }

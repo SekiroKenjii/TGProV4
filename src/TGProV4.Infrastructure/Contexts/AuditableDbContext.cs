@@ -1,27 +1,32 @@
-﻿namespace TGProV4.Infrastructure.Contexts;
+namespace TGProV4.Infrastructure.Contexts;
 
-public class AuditableDbContext
-    : IdentityDbContext<AppUser, AppRole, string,
-        IdentityUserClaim<string>, IdentityUserRole<string>,
-        IdentityUserLogin<string>, AppRoleClaim, AppUserToken>
+public class AuditableDbContext : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>,
+    IdentityUserRole<string>, IdentityUserLogin<string>, AppRoleClaim, AppUserToken>
 {
-    protected AuditableDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    protected AuditableDbContext(DbContextOptions options) : base(options) {}
 
-    public DbSet<Audit>? AuditTrails { get; set; }
+    // ReSharper disable once MemberCanBePrivate.Global
+    public DbSet<Audit>? AuditTrails { get; [UsedImplicitly] set; }
 
     protected async Task<int> SaveChangesAsync(string? userId = null, CancellationToken cancellationToken = new())
     {
+        if (AuditTrails is null)
+        {
+            throw new NullReferenceException("DbSet<Audit> is null");
+        }
+
         var auditEntries = OnBeforeSaveChanges(userId);
         var result = await base.SaveChangesAsync(cancellationToken);
+
         await OnAfterSaveChanges(auditEntries, cancellationToken);
+
         return result;
     }
 
     private List<AuditEntry> OnBeforeSaveChanges(string? userId)
     {
         ChangeTracker.DetectChanges();
+
         var auditEntries = new List<AuditEntry>();
 
         foreach (var entry in ChangeTracker.Entries())
@@ -31,7 +36,10 @@ public class AuditableDbContext
                 continue;
             }
 
-            var auditEntry = new AuditEntry(entry) { TableName = entry.Entity.GetType().Name, UserId = userId };
+            var auditEntry = new AuditEntry(entry) {
+                TableName = entry.Entity.GetType().Name,
+                UserId = userId
+            };
 
             auditEntries.Add(auditEntry);
 
@@ -64,8 +72,7 @@ public class AuditableDbContext
                         break;
 
                     case EntityState.Modified:
-                        if (property.IsModified &&
-                            property.OriginalValue?.Equals(property.CurrentValue) == false)
+                        if (property.IsModified && property.OriginalValue?.Equals(property.CurrentValue) == false)
                         {
                             auditEntry.ChangedColumns.Add(propertyName);
                             auditEntry.AuditType = AuditType.Update;
@@ -85,7 +92,7 @@ public class AuditableDbContext
 
         foreach (var auditEntry in auditEntries.Where(x => !x.HasTemporaryProperties))
         {
-            AuditTrails!.Add(auditEntry.ToAudit());
+            AuditTrails?.Add(auditEntry.ToAudit());
         }
 
         return auditEntries.Where(x => x.HasTemporaryProperties).ToList();
@@ -112,7 +119,7 @@ public class AuditableDbContext
                 }
             }
 
-            AuditTrails!.Add(auditEntry.ToAudit());
+            AuditTrails?.Add(auditEntry.ToAudit());
         }
 
         return SaveChangesAsync(cancellationToken);

@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Domain.Entities;
+namespace TGProV4.Domain.Entities;
 
 public class Color : AuditableEntity<int>
 {

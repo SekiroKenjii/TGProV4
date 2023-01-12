@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TGProV4.Server.Controllers;
@@ -12,26 +12,35 @@ public abstract class BaseApiController : ControllerBase
 {
     private IMediator? _mediatorInstance;
 
-    protected IMediator Mediator => _mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>()!;
+    protected IMediator Mediator {
+        get => (_mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>()) ??
+               throw new ArgumentNullException(nameof(_mediatorInstance));
+    }
 
     protected ActionResult HandleResult<T>(T result, HttpStatusCode statusCode)
     {
         if (result is not null && !result.Equals(default))
         {
-            return Ok(new Response<T> { Message = statusCode.ToString(), Data = result, Succeeded = true });
-        }
-
-        if (statusCode is HttpStatusCode.OK)
-        {
-            return NotFound(new Response<T>
-            {
-                Message = HttpStatusCode.NotFound.ToString(), Data = result, Succeeded = false
+            return Ok(new Response<T> {
+                Message = statusCode.ToString(),
+                Data = result,
+                Succeeded = true
             });
         }
 
-        return BadRequest(new Response<string>
+        if (statusCode is HttpStatusCode.OK && result is not null && result.GetType() != typeof(bool))
         {
-            Succeeded = false, Data = default, Message = HttpStatusCode.BadRequest.ToString()
+            return NotFound(new Response<T> {
+                Message = HttpStatusCode.NotFound.ToString(),
+                Data = result,
+                Succeeded = false
+            });
+        }
+
+        return BadRequest(new Response<T> {
+            Succeeded = false,
+            Data = result,
+            Message = HttpStatusCode.BadRequest.ToString()
         });
     }
 }

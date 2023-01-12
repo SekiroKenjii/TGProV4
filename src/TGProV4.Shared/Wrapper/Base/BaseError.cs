@@ -1,5 +1,3 @@
-﻿namespace TGProV4.Shared.Wrapper.Base;
+namespace TGProV4.Shared.Wrapper.Base;
 
-public abstract class BaseError
-{
-}
+public abstract class BaseError {}

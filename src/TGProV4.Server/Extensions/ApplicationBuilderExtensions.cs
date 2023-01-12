@@ -1,10 +1,8 @@
-﻿namespace TGProV4.Server.Extensions;
+namespace TGProV4.Server.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
-    public static void UseExceptionHandling(
-        this IApplicationBuilder app,
-        IWebHostEnvironment env)
+    public static void UseExceptionHandling(this IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
@@ -15,8 +13,7 @@ public static class ApplicationBuilderExtensions
     public static void ConfigureSwagger(this IApplicationBuilder app)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
+        app.UseSwaggerUI(options => {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", typeof(Program).Assembly.GetName().Name);
             options.RoutePrefix = "swagger";
             options.DisplayRequestDuration();
@@ -31,7 +28,7 @@ public static class ApplicationBuilderExtensions
 
         foreach (var initializer in initializers)
         {
-            initializer.Initialize();
+            initializer.Run();
         }
     }
 

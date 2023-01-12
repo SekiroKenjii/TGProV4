@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace TGProV4.Domain.Entities;
 

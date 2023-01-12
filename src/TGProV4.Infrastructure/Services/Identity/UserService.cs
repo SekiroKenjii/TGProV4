@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace TGProV4.Infrastructure.Services.Identity;
 
@@ -23,18 +23,17 @@ public class UserService : IUserService
 
     public async Task<List<UserResponse>> GetAllUsers()
     {
-        var users = await _userManager.Users.Select(x => new UserResponse
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                IsActive = x.IsActive,
-                EmailConfirmed = x.EmailConfirmed,
-                PhoneNumber = x.PhoneNumber,
-                AvatarUrl = x.AvatarUrl
-            })
-            .ToListAsync();
+        var users = await _userManager.Users.Select(x => new UserResponse {
+                                           Id = x.Id,
+                                           FirstName = x.FirstName,
+                                           LastName = x.LastName,
+                                           Email = x.Email,
+                                           IsActive = x.IsActive,
+                                           EmailConfirmed = x.EmailConfirmed,
+                                           PhoneNumber = x.PhoneNumber,
+                                           AvatarUrl = x.AvatarUrl
+                                       })
+                                      .ToListAsync();
 
         return users;
     }
@@ -49,18 +48,17 @@ public class UserService : IUserService
     public async Task<UserResponse?> GetUser(string userId)
     {
         var user = await _userManager.Users.Where(x => x.Id == userId)
-            .Select(x => new UserResponse
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                IsActive = x.IsActive,
-                EmailConfirmed = x.EmailConfirmed,
-                PhoneNumber = x.PhoneNumber,
-                AvatarUrl = x.AvatarUrl
-            })
-            .FirstOrDefaultAsync();
+                                     .Select(x => new UserResponse {
+                                          Id = x.Id,
+                                          FirstName = x.FirstName,
+                                          LastName = x.LastName,
+                                          Email = x.Email,
+                                          IsActive = x.IsActive,
+                                          EmailConfirmed = x.EmailConfirmed,
+                                          PhoneNumber = x.PhoneNumber,
+                                          AvatarUrl = x.AvatarUrl
+                                      })
+                                     .FirstOrDefaultAsync();
 
         if (user == null)
         {
@@ -76,9 +74,7 @@ public class UserService : IUserService
 
         if (exists != null)
         {
-            throw new ValidationException(
-                "DuplicateDataValidator",
-                StringHelpers.Message.AlreadyTaken("Email"),
+            throw new ValidationException("DuplicateDataValidator", StringHelpers.Message.AlreadyTaken("Email"),
                 "Email");
         }
 
@@ -86,9 +82,7 @@ public class UserService : IUserService
 
         if (exists != null)
         {
-            throw new ValidationException(
-                "DuplicateDataValidator",
-                StringHelpers.Message.AlreadyTaken("PhoneNumber"),
+            throw new ValidationException("DuplicateDataValidator", StringHelpers.Message.AlreadyTaken("PhoneNumber"),
                 "PhoneNumber");
         }
 
@@ -131,8 +125,7 @@ public class UserService : IUserService
 
         foreach (var role in roles)
         {
-            userRoles.Add(new UserRoleResponse
-            {
+            userRoles.Add(new UserRoleResponse {
                 RoleName = role.Name,
                 RoleDescription = role.Description,
                 Selected = await _userManager.IsInRoleAsync(user, role.Name)
@@ -171,7 +164,7 @@ public class UserService : IUserService
             var addAdminRole = selectedRoles.Any(x => x.RoleName == ApplicationConstants.Roles.Administrator);
             var isAdministrator = userRoles.Any(x => x == ApplicationConstants.Roles.Administrator);
 
-            if ((addAdminRole && !isAdministrator) || (!addAdminRole && isAdministrator))
+            if (addAdminRole && !isAdministrator || !addAdminRole && isAdministrator)
             {
                 throw new BadRequestException(ApplicationConstants.Messages.NotAllowToAddOrDeleteAdminRole);
             }

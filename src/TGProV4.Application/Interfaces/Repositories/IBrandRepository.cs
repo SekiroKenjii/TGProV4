@@ -1,5 +1,3 @@
-﻿namespace TGProV4.Application.Interfaces.Repositories;
+namespace TGProV4.Application.Interfaces.Repositories;
 
-public interface IBrandRepository
-{
-}
+public interface IBrandRepository {}

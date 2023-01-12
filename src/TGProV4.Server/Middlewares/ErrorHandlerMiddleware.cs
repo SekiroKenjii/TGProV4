@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Server.Middlewares;
+namespace TGProV4.Server.Middlewares;
 
 public class ErrorHandlerMiddleware
 {
@@ -28,29 +28,32 @@ public class ErrorHandlerMiddleware
     {
         context.Response.ContentType = "application/json";
 
-        var response = new Response<string> { Succeeded = false, Data = default };
+        var response = new Response<string> {
+            Succeeded = false,
+            Data = default
+        };
 
         switch (exception)
         {
             case NotFoundException notFound:
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                context.Response.StatusCode = (int) HttpStatusCode.NotFound;
                 response.Message = notFound.Message;
                 break;
             case Application.Exceptions.ValidationException validation:
-                context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+                context.Response.StatusCode = (int) HttpStatusCode.UnprocessableEntity;
                 response.Message = validation.Message;
                 response.Errors = validation.GetErrors();
                 break;
             case SecurityTokenException tokenError:
-                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
                 response.Message = tokenError.Message;
                 break;
             case BadRequestException bad:
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
                 response.Message = bad.Message;
                 break;
             default:
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
                 response.Message = "Internal server error";
                 response.Errors.HandleStackTrace(exception);
                 break;

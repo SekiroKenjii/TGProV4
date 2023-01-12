@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Application.Requests.Identity;
+namespace TGProV4.Application.Requests.Identity;
 
 public class TokenRequest
 {

@@ -1,12 +1,9 @@
-﻿namespace TGProV4.Infrastructure.Models.Identity;
+namespace TGProV4.Infrastructure.Models.Identity;
 
 public class AppUser : IdentityUser<string>, IAuditableEntity<string>
 {
-    public AppUser() : base()
-    {
-        UserTokens = new HashSet<AppUserToken>();
-    }
-    
+    public AppUser() : base() => UserTokens = new HashSet<AppUserToken>();
+
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string? AvatarUrl { get; set; }

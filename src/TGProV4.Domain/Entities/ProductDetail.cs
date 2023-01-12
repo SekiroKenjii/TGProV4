@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Domain.Entities;
+namespace TGProV4.Domain.Entities;
 
 public class ProductDetail : AuditableEntity<int>
 {
@@ -17,10 +17,10 @@ public class ProductDetail : AuditableEntity<int>
 
     public int? ConditionId { get; set; }
     public virtual ProductCondition? Condition { get; set; }
-    
+
     public int? TypeId { get; set; }
     public virtual ProductType? Type { get; set; }
-    
+
     public virtual ICollection<ProductImage>? Images { get; set; }
     public virtual ICollection<ProductColor>? Colors { get; set; }
 }

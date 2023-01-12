@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Shared.Constants.Application;
+namespace TGProV4.Shared.Constants.Application;
 
 public static class ApplicationConstants
 {
@@ -6,7 +6,7 @@ public static class ApplicationConstants
     {
         public const string DefaultPassword = "P@ssw0rd1";
     }
-    
+
     public static class Messages
     {
         public const string ValidationError = "One or more validation failures have occurred.";
@@ -21,7 +21,9 @@ public static class ApplicationConstants
         public const string InvalidToken = "Invalid Client Token.";
         public const string Unauthorized = "You are not authorized!";
         public const string Forbidden = "You are not authorized to access this resource!";
+
         public const string NotAllowToAddOrDeleteAdminRole = "you are not allowed to add or delete Administrator Role.";
+
         public const string InternalServerError = "An unhandled error has occurred.";
     }
 

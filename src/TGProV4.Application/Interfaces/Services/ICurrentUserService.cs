@@ -1,4 +1,4 @@
-﻿namespace TGProV4.Application.Interfaces.Services;
+namespace TGProV4.Application.Interfaces.Services;
 
 public interface ICurrentUserService
 {

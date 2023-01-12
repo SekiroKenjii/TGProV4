@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace TGProV4.Shared.Constants.Application;
 
@@ -15,7 +15,7 @@ public static class ApplicationPermissions
         public const string Export = "Permissions.Brands.Export";
         public const string Retrieve = "Permissions.Brands.Retrieve";
     }
-    
+
     [DisplayName("Products")]
     [Description("Products Permissions")]
     public static class Products
