@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>TGProV4.Application</RootNamespace>
     <AssemblyName>TGProV4.Application</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,11 +12,11 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
-    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +37,10 @@
     <Using Include="TGProV4.Domain.Entities" />
     <Using Include="TGProV4.Application.Exceptions" />
     <Using Include="TGProV4.Application.Interfaces.Repositories" />
+    <Using Include="TGProV4.Application.Interfaces.Services" />
+    <Using Include="TGProV4.Application.Requests.Mail" />
+    <Using Include="TGProV4.Application.Requests.Production.Brand" />
+    <Using Include="TGProV4.Application.Interfaces.Services.Cloud" />
     <Using Include="TGProV4.Application.Requests" />
     <Using Include="TGProV4.Application.Requests.Identity" />
     <Using Include="TGProV4.Application.Responses" />

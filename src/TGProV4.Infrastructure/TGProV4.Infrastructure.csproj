@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>TGProV4.Infrastructure</RootNamespace>
     <AssemblyName>TGProV4.Infrastructure</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,19 +12,21 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="CloudinaryDotNet" Version="1.20.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+    <PackageReference Include="Hangfire.Core" Version="1.8.0-rc2" />
+    <PackageReference Include="MailKit" Version="3.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MimeKit" Version="3.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,16 +42,23 @@
     <Using Include="System.Security.Claims" />
     <Using Include="System.Security.Cryptography" />
     <Using Include="System.Text" />
+    <Using Include="System.Text.Encodings.Web" />
     <Using Include="AutoMapper" />
     <Using Include="CloudinaryDotNet" />
     <Using Include="CloudinaryDotNet.Actions" />
-    <Using Include="JetBrains.Annotations" />
+    <Using Include="Hangfire" />
+    <Using Include="MailKit.Net.Smtp" />
+    <Using Include="MailKit.Security" />
+    <Using Include="MimeKit" />
     <Using Include="Microsoft.AspNetCore.Identity" />
     <Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <Using Include="Microsoft.AspNetCore.Http" />
+    <Using Include="Microsoft.AspNetCore.WebUtilities" />
     <Using Include="Microsoft.EntityFrameworkCore" />
     <Using Include="Microsoft.EntityFrameworkCore.ChangeTracking" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
     <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Microsoft.Extensions.Logging" />
     <Using Include="Microsoft.Extensions.Options" />
     <Using Include="Microsoft.IdentityModel.Tokens" />
     <Using Include="Newtonsoft.Json" />
@@ -60,14 +69,19 @@
     <Using Include="TGProV4.Application.Interfaces.Services.Cloud" />
     <Using Include="TGProV4.Application.Interfaces.Services.Identity" />
     <Using Include="TGProV4.Application.Requests" />
+    <Using Include="TGProV4.Application.Requests.Mail" />
     <Using Include="TGProV4.Application.Requests.Identity" />
+    <Using Include="TGProV4.Application.Requests.Production.Brand" />
+    <Using Include="TGProV4.Application.Requests.Production.Product" />
     <Using Include="TGProV4.Application.Responses" />
     <Using Include="TGProV4.Application.Responses.Identity" />
     <Using Include="TGProV4.Domain.Contracts" />
     <Using Include="TGProV4.Domain.Enums" />
     <Using Include="TGProV4.Domain.Entities" />
     <Using Include="TGProV4.Infrastructure.Configurations" />
+    <Using Include="TGProV4.Infrastructure.Configurations.Identity" />
     <Using Include="TGProV4.Infrastructure.Contexts" />
+    <Using Include="TGProV4.Infrastructure.Extensions" />
     <Using Include="TGProV4.Infrastructure.Models.Audit" />
     <Using Include="TGProV4.Infrastructure.Models.Identity" />
     <Using Include="TGProV4.Infrastructure.Repositories" />
