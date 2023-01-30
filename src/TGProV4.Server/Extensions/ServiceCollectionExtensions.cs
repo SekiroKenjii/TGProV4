@@ -147,12 +147,13 @@ public static class ServiceCollectionExtensions
                                                                          BindingFlags.Static |
                                                                          BindingFlags.FlattenHierarchy)))
             {
-                var propertyValue = field.GetValue(null);
+                var propertyValue = field.GetValue(null)?.ToString();
 
-                if (propertyValue is not null)
+                if (!string.IsNullOrEmpty(propertyValue))
                 {
-                    options.AddPolicy(propertyValue.ToString()!,
-                        policy => policy.RequireClaim("Permission", propertyValue.ToString()!));
+                    options.AddPolicy(propertyValue,
+                        policy => policy.RequireClaim(ApplicationConstants.ClaimTypes.Permission,
+                            propertyValue));
                 }
             }
         });

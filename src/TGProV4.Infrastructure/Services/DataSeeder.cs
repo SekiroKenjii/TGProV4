@@ -69,6 +69,9 @@ public class DataSeeder : IDataSeeder
                      LastName = "Vo",
                      Email = "trungthuongvo109@gmail.com",
                      UserName = "trungthuongvo109",
+                     AvatarUrl =
+                         "https://res.cloudinary.com/dglgzh0aj/image/upload/v1638705794/TGProV3/users/admin_avatar.jpg",
+                     AvatarId = "TGProV3/users/admin_avatar",
                      EmailConfirmed = true,
                      PhoneNumber = "0375274267",
                      PhoneNumberConfirmed = true,
@@ -90,8 +93,10 @@ public class DataSeeder : IDataSeeder
                      }
 
                      _adminId = ownerFromDb.Id;
+                     ownerFromDb.CreatedBy = _adminId;
                      roleFromDb.CreatedBy = _adminId;
 
+                     await _userManager.UpdateAsync(ownerFromDb);
                      await _roleManager.UpdateAsync(roleFromDb);
 
                      var result = await _userManager.AddToRoleAsync(webOwner, ApplicationConstants.Roles.Administrator);

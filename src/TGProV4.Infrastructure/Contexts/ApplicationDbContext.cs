@@ -42,6 +42,7 @@ public class ApplicationDbContext : AuditableDbContext
         }
 
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
+        {
             switch (entry.State)
             {
                 case EntityState.Added:
@@ -60,6 +61,7 @@ public class ApplicationDbContext : AuditableDbContext
                 default:
                     break;
             }
+        }
 
         return await base.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
     }

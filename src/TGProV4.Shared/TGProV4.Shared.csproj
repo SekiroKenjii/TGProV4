@@ -11,6 +11,8 @@
 
   <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
     <Using Include="System.ComponentModel" />
+    <Using Include="System.Reflection" />
+    <Using Include="TGProV4.Shared.Constants.Application" />
   </ItemGroup>
 
 </Project>

@@ -10,12 +10,14 @@ public static class ClaimExtensions
 
         foreach (var permission in permissionDetail.Item3)
         {
-            if (!claims.Any(a
-                    => a.ClaimType == ApplicationConstants.ClaimTypes.Permission && a.ClaimValue == permission))
+            if (!claims.Any(
+                    a => a.ClaimType is ApplicationConstants.ClaimTypes.Permission && a.ClaimValue == permission))
             {
                 await context.RoleClaims.AddAsync(new AppRoleClaim(permissionDetail.Item2, permissionDetail.Item1) {
                     ClaimType = ApplicationConstants.ClaimTypes.Permission,
-                    ClaimValue = permission
+                    ClaimValue = permission,
+                    RoleId = role.Id,
+                    CreatedBy = role.CreatedBy
                 });
             }
         }

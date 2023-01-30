@@ -25,7 +25,7 @@ public class ImageService<T> : IImageService<T> where T : ImageUploadRequest
             }
 
             return request switch {
-                UpdateUserProfileRequest => GetDefaultUserImage(request.Entity),// should be user type
+                UpdateUserProfileRequest => GetDefaultUserImage(request.Entity),
                 _ => GetDefaultProductionImage(request.Entity)
             };
         }
@@ -63,17 +63,15 @@ public class ImageService<T> : IImageService<T> where T : ImageUploadRequest
 
     private static ImageUploadResponse GetDefaultUserImage(string? gender = null)
     {
-        if (gender != Gender.Female.ToString())
-        {
-            return new ImageUploadResponse {
+        return gender switch {
+            nameof(Gender.Female) => new ImageUploadResponse {
+                ImageUrl = ApplicationConstants.DefaultImages.FemaleAvatar,
+                PublicId = ApplicationConstants.DefaultImages.FemaleAvatarId
+            },
+            _ => new ImageUploadResponse {
                 ImageUrl = ApplicationConstants.DefaultImages.MaleAvatar,
                 PublicId = ApplicationConstants.DefaultImages.MaleAvatarId
-            };
-        }
-
-        return new ImageUploadResponse {
-            ImageUrl = ApplicationConstants.DefaultImages.FemaleAvatar,
-            PublicId = ApplicationConstants.DefaultImages.FemaleAvatarId
+            }
         };
     }
 
