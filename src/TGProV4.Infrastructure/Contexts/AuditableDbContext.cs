@@ -6,7 +6,7 @@ public class AuditableDbContext : IdentityDbContext<AppUser, AppRole, string, Id
     protected AuditableDbContext(DbContextOptions options) : base(options) {}
 
     // ReSharper disable once MemberCanBePrivate.Global
-    public DbSet<Audit>? AuditTrails { get; [UsedImplicitly] set; }
+    public DbSet<Audit>? AuditTrails { get; set; }
 
     protected async Task<int> SaveChangesAsync(string? userId = null, CancellationToken cancellationToken = new())
     {

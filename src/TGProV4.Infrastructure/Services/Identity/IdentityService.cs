@@ -1,3 +1,5 @@
+using TGProV4.Infrastructure.Extensions;
+
 namespace TGProV4.Infrastructure.Services.Identity;
 
 public class IdentityService : ITokenService
@@ -5,7 +7,6 @@ public class IdentityService : ITokenService
     private readonly UserManager<AppUser> _userManager;
     private readonly RoleManager<AppRole> _roleManager;
     private readonly AppConfiguration _appConfig;
-    private const string LoginProvider = "TGProV4.Identity";
 
     public IdentityService(
         UserManager<AppUser> userManager,
@@ -17,37 +18,22 @@ public class IdentityService : ITokenService
         _appConfig = appConfig.Value;
     }
 
-    public async Task<TokenResponse> Login(TokenRequest request)
+    public async Task<TokenResponse?> Login(LoginRequest request)
     {
+        if (string.IsNullOrEmpty(request.Email))
+        {
+            return null;
+        }
+
         var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (user == null)
-        {
-            throw new UnauthorizedException(ApplicationConstants.Messages.InvalidCredentialInfo);
-        }
-
-        if (!user.IsActive)
-        {
-            throw new UnauthorizedException(ApplicationConstants.Messages.LockedUser);
-        }
-
-        if (!user.EmailConfirmed)
-        {
-            throw new UnauthorizedException(ApplicationConstants.Messages.EmailUnconfirmed);
-        }
-
-        var checkPassword = await _userManager.CheckPasswordAsync(user, request.Password);
-
-        if (!checkPassword)
-        {
-            throw new UnauthorizedException(ApplicationConstants.Messages.InvalidCredentialInfo);
-        }
+        user = await user.ValidateUserWithPassword(_userManager, request);
 
         var refreshToken = GenerateRefreshToken();
 
         user.UserTokens.Add(new AppUserToken {
-            LoginProvider = LoginProvider,
-            Name = user.Email,
+            LoginProvider = ApplicationConstants.Secrets.LoginProvider,
+            Name = user.Email!,
             Value = refreshToken
         });
 
@@ -69,7 +55,7 @@ public class IdentityService : ITokenService
         }
 
         var userPrincipal = GetPrincipalFromExpiredToken(request.Token);
-        var userId = userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = userPrincipal!.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userManager.Users
                                      .Include(x => x.UserTokens)
                                      .FirstOrDefaultAsync(x => x.Id == userId);
@@ -91,8 +77,8 @@ public class IdentityService : ITokenService
         var refreshToken = GenerateRefreshToken();
 
         user.UserTokens.Add(new AppUserToken {
-            LoginProvider = LoginProvider,
-            Name = user.Email,
+            LoginProvider = ApplicationConstants.Secrets.LoginProvider,
+            Name = user.Email!,
             Value = refreshToken
         });
 
@@ -152,13 +138,19 @@ public class IdentityService : ITokenService
         {
             roleClaims.Add(new Claim(ClaimTypes.Role, role));
             var roleEntity = await _roleManager.FindByNameAsync(role);
+
+            if (roleEntity is null)
+            {
+                continue;
+            }
+            
             var permissions = await _roleManager.GetClaimsAsync(roleEntity);
             permissionClaims.AddRange(permissions);
         }
 
         var claims = new List<Claim> {
                          new(ClaimTypes.NameIdentifier, user.Id),
-                         new(ClaimTypes.Email, user.Email),
+                         new(ClaimTypes.Email, user.Email!),
                          new(ClaimTypes.Name, user.FirstName),
                          new(ClaimTypes.Surname, user.LastName),
                          new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
@@ -194,7 +186,8 @@ public class IdentityService : ITokenService
 
         var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
 
-        if (securityToken is not JwtSecurityToken jwtSecurityToken ||
+        if (principal is null ||
+            securityToken is not JwtSecurityToken jwtSecurityToken ||
             !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                 StringComparison.InvariantCultureIgnoreCase))
         {

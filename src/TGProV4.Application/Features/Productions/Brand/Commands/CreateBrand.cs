@@ -1,8 +1,4 @@
-﻿using TGProV4.Application.Interfaces.Services;
-using TGProV4.Application.Interfaces.Services.Cloud;
-using TGProV4.Application.Requests.Production.Brand;
-
-namespace TGProV4.Application.Features.Productions.Brand.Commands;
+﻿namespace TGProV4.Application.Features.Productions.Brand.Commands;
 
 public class CreateBrand
 {
@@ -11,6 +7,7 @@ public class CreateBrand
         public UpsertBrandRequest? Brand { get; init; }
     }
 
+    // ReSharper disable once UnusedType.Global
     public class Handler : IRequestHandler<Command, BrandResponse?>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
@@ -41,7 +38,7 @@ public class CreateBrand
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Brand.SetEntity(ApplicationConstants.Entities.Brand);
+            request.Brand.Entity = ApplicationConstants.Entities.Brand;
 
             var imageUpload = await _imageService.Upload(request.Brand) ??
                               throw new Exception(ApplicationConstants.Messages.UploadImageError);

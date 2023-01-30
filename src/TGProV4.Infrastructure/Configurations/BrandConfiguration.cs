@@ -4,7 +4,7 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
 {
     public void Configure(EntityTypeBuilder<Brand> builder)
     {
-        builder.ToTable("Brands", "Production");
+        builder.ToTable("Brands", ApplicationConstants.TableSchemas.Production);
 
         builder.HasKey(x => x.Id);
 

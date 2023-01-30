@@ -4,7 +4,8 @@ public class GetBrands
 {
     public class Query : IRequest<List<BrandResponse>> {}
 
-    internal class Handler : IRequestHandler<Query, List<BrandResponse>>
+    // ReSharper disable once UnusedType.Global
+    public class Handler : IRequestHandler<Query, List<BrandResponse>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
 

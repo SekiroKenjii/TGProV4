@@ -6,8 +6,9 @@ public class GetBrandById
     {
         public int Id { get; init; }
     }
-
-    internal class Handler : IRequestHandler<Query, BrandResponse?>
+    
+    // ReSharper disable once UnusedType.Global
+    public class Handler : IRequestHandler<Query, BrandResponse?>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
 

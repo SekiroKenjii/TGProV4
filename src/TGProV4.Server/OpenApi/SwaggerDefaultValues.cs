@@ -8,7 +8,7 @@ public class SwaggerDefaultValues : IOperationFilter
 
         operation.Deprecated |= apiDescription.IsDeprecated();
 
-        if (operation.Parameters == null)
+        if (operation.Parameters is null)
         {
             return;
         }

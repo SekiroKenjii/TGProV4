@@ -31,10 +31,4 @@ public static class ApplicationBuilderExtensions
             initializer.Run();
         }
     }
-
-    private static AppConfiguration GetApplicationSettings(IConfiguration configuration)
-    {
-        var appSettingsConfiguration = configuration.GetSection(nameof(AppConfiguration));
-        return appSettingsConfiguration.Get<AppConfiguration>();
-    }
 }

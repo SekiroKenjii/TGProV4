@@ -4,7 +4,7 @@ public class ColorConfiguration : IEntityTypeConfiguration<Color>
 {
     public void Configure(EntityTypeBuilder<Color> builder)
     {
-        builder.ToTable("Colors", "Production");
+        builder.ToTable("Colors", ApplicationConstants.TableSchemas.Production);
 
         builder.HasKey(x => x.Id);
 

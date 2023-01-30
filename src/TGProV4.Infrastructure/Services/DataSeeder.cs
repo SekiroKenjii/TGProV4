@@ -53,10 +53,17 @@ public class DataSeeder : IDataSeeder
                  {
                      await _roleManager.CreateAsync(adminRole);
                      roleFromDb = await _roleManager.FindByNameAsync(ApplicationConstants.Roles.Administrator);
+
+                     if (roleFromDb is null)
+                     {
+                         _logger.LogError("An error has occurred: Failed to initialize administrator role");
+                         return;
+                     }
+
                      _logger.LogInformation("Done!");
                  }
 
-                 _logger.LogInformation("Initialize Default Web Owner.");
+                 _logger.LogInformation("Initialize Default Web Owner...");
 
                  var webOwner = new AppUser {
                      FirstName = "Thuong",
@@ -76,9 +83,16 @@ public class DataSeeder : IDataSeeder
                      await _userManager.CreateAsync(webOwner, ApplicationConstants.Secrets.DefaultPassword);
 
                      ownerFromDb = await _userManager.FindByEmailAsync(webOwner.Email);
-                     _adminId = ownerFromDb.Id;
 
+                     if (ownerFromDb is null)
+                     {
+                         _logger.LogError("An error has occurred: Failed to initialize default web owner");
+                         return;
+                     }
+
+                     _adminId = ownerFromDb.Id;
                      roleFromDb.CreatedBy = _adminId;
+
                      await _roleManager.UpdateAsync(roleFromDb);
 
                      var result = await _userManager.AddToRoleAsync(webOwner, ApplicationConstants.Roles.Administrator);
@@ -96,9 +110,9 @@ public class DataSeeder : IDataSeeder
                      }
                  }
 
-                 foreach (var permission in ConstantHelpers.GetApplicationPermissions())
+                 foreach (var permissionDetail in ConstantHelpers.GetApplicationPermissions())
                  {
-                     await _roleManager.AddPermissionClaim(roleFromDb, permission);
+                     await _context.AddPermissionClaim(roleFromDb, permissionDetail);
                  }
              })
             .GetAwaiter()
@@ -112,7 +126,7 @@ public class DataSeeder : IDataSeeder
             Task.Run(async () => {
                      if (!_context.Brands.Any())
                      {
-                         _logger.LogInformation("Initialize Sample Brand Data.");
+                         _logger.LogInformation("Initialize Sample Brand Data...");
 
                          var brands = new List<Brand> {
                              new() {

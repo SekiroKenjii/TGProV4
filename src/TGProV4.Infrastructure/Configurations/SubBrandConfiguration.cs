@@ -4,7 +4,7 @@ public class SubBrandConfiguration : IEntityTypeConfiguration<SubBrand>
 {
     public void Configure(EntityTypeBuilder<SubBrand> builder)
     {
-        builder.ToTable("SubBrands", "Production");
+        builder.ToTable("SubBrands", ApplicationConstants.TableSchemas.Production);
 
         builder.HasKey(x => x.Id);
 

@@ -1,6 +1,3 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-
 namespace TGProV4.Server.Controllers;
 
 /// <summary>

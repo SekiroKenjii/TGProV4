@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace TGProV4.Shared.Constants.Application;
 
 public static class ApplicationPermissions

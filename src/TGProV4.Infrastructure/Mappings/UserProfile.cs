@@ -1,5 +1,6 @@
 namespace TGProV4.Infrastructure.Mappings;
 
+// ReSharper disable once UnusedType.Global
 public class UserProfile : Profile
 {
     public UserProfile()

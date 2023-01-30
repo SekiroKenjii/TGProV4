@@ -2,16 +2,22 @@ namespace TGProV4.Infrastructure.Extensions;
 
 public static class ClaimExtensions
 {
-    public static async Task AddPermissionClaim(this RoleManager<AppRole> roleManager, AppRole role, string permission)
+    public static async Task AddPermissionClaim(this ApplicationDbContext context,
+                                                AppRole role,
+                                                Tuple<string, string, IEnumerable<string?>> permissionDetail)
     {
-        var claims = await roleManager.GetClaimsAsync(role);
+        var claims = await context.RoleClaims.Where(x => x.RoleId == role.Id).ToListAsync();
 
-        if (!claims.Any(a => a.Type is "Permission" && a.Value == permission))
+        foreach (var permission in permissionDetail.Item3)
         {
-            await roleManager.AddClaimAsync(role, new Claim("Permission", permission));
-            return;
+            if (!claims.Any(a
+                    => a.ClaimType == ApplicationConstants.ClaimTypes.Permission && a.ClaimValue == permission))
+            {
+                await context.RoleClaims.AddAsync(new AppRoleClaim(permissionDetail.Item2, permissionDetail.Item1) {
+                    ClaimType = ApplicationConstants.ClaimTypes.Permission,
+                    ClaimValue = permission
+                });
+            }
         }
-
-        IdentityResult.Failed();
     }
 }

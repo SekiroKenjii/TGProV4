@@ -1,6 +1,3 @@
-using System.Reflection;
-using TGProV4.Infrastructure.Services;
-
 namespace TGProV4.Server.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -10,7 +7,7 @@ public static class ServiceCollectionExtensions
     {
         var appConfig = configuration.GetSection(nameof(AppConfiguration));
         services.Configure<AppConfiguration>(appConfig);
-        return appConfig.Get<AppConfiguration>();
+        return appConfig.Get<AppConfiguration>() ?? throw new InvalidOperationException();
     }
 
     public static void ConfigureCloudinaryService(this IServiceCollection services, IConfiguration configuration)

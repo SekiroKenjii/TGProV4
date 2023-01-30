@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
     public static void AddCloudService(this IServiceCollection services)
     {
         services.AddTransient(typeof(IImageService<>), typeof(ImageService<>));
+        services.AddTransient<IMailService, MailService>();
     }
 
     public static void AddIdentityService(this IServiceCollection services)

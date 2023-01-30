@@ -9,7 +9,6 @@ public interface IUserService
     Task<List<UserRoleResponse>> GetUserRoles(string userId);
     Task<bool> UpdateUserRoles(UpdateUserRolesRequest request);
     Task<bool> ConfirmEmail(string userId, string code);
-
-    // Task<> ForgotPasswordAsync(Request request);
-    // Task<> ResetPasswordAsync(Request request);
+    Task<string> ForgotPassword(ForgotPasswordRequest request);
+    Task<bool> ResetPassword(ResetPasswordRequest request);
 }

@@ -2,7 +2,7 @@ namespace TGProV4.Infrastructure.Models.Identity;
 
 public class AppRoleClaim : IdentityRoleClaim<string>, IAuditableEntity<int>
 {
-    public AppRoleClaim() : base() {}
+    public AppRoleClaim() {}
 
     public AppRoleClaim(string? roleClaimDescription = null, string? roleClaimGroup = null)
     {

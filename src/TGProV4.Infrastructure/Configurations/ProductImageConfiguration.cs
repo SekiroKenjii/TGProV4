@@ -4,7 +4,7 @@ public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImage>
 {
     public void Configure(EntityTypeBuilder<ProductImage> builder)
     {
-        builder.ToTable("ProductImages", "Production");
+        builder.ToTable("ProductImages", ApplicationConstants.TableSchemas.Production);
 
         builder.HasKey(x => x.Id);
 

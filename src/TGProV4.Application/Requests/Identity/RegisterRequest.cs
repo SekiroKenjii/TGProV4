@@ -8,6 +8,6 @@ public class RegisterRequest
     public string? Password { get; set; }
     public string? ConfirmPassword { get; set; }
     public string? PhoneNumber { get; set; }
-    public bool ActivateUser { get; set; } = false;
-    public bool AutoConfirmEmail { get; set; } = false;
+    public bool ActivateUser { get; set; } = default;
+    public bool AutoConfirmEmail { get; set; } = default;
 }

@@ -19,7 +19,7 @@ public class ErrorHandlerMiddleware
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "An error has occurred: {stackTrace}", exception.StackTrace);
+            _logger.LogError(exception, "An error has occurred: {message}", exception.Message);
             await HandleException(context, exception);
         }
     }

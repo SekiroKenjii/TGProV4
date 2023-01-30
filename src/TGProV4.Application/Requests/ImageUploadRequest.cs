@@ -2,11 +2,6 @@
 
 public class ImageUploadRequest
 {
-    public void SetEntity(string entity)
-    {
-        Entity = entity;
-    }
-
-    public string? Entity { get; private set; }
+    public string? Entity { get; set; }
     public IFormFile? ImageFile { get; set; }
 }
