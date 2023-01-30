@@ -16,6 +16,10 @@ trim_trailing_whitespace = true
 [*.csproj]
 indent_size = 2
 
+# Yaml files
+[*.yml]
+indent_size = 2
+
 # Code files
 [*.cs]
 
