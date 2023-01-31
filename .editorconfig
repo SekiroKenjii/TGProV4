@@ -12,6 +12,10 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
+# Json files
+[*.json]
+indent_size = 2
+
 # XML project files
 [*.csproj]
 indent_size = 2

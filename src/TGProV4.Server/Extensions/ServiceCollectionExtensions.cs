@@ -141,35 +141,36 @@ public static class ServiceCollectionExtensions
             });
 
         services.AddAuthorization(options => {
-            foreach (var field in typeof(ApplicationPermissions).GetNestedTypes()
-                                                                .SelectMany(c
-                                                                     => c.GetFields(BindingFlags.Public |
-                                                                         BindingFlags.Static |
-                                                                         BindingFlags.FlattenHierarchy)))
+            foreach (var field in typeof(ApplicationPermissions)
+                                 .GetNestedTypes()
+                                 .SelectMany(c => c.GetFields(BindingFlags.Public |
+                                                              BindingFlags.Static |
+                                                              BindingFlags.FlattenHierarchy)))
             {
                 var propertyValue = field.GetValue(null)?.ToString();
 
                 if (!string.IsNullOrEmpty(propertyValue))
                 {
-                    options.AddPolicy(propertyValue,
-                        policy => policy.RequireClaim(ApplicationConstants.ClaimTypes.Permission,
-                            propertyValue));
+                    options.AddPolicy(propertyValue, policy
+                        => policy.RequireClaim(ApplicationConstants.ClaimTypes.Permission, propertyValue));
                 }
             }
         });
     }
 
-    public static void ConfigureApiVersioning(this IServiceCollection services)
+    public static void ConfigureApiVersioning(this IServiceCollection services, AppConfiguration config)
     {
         services
            .AddApiVersioning(options => {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.DefaultApiVersion = new ApiVersion(config.ApiMajorVersion, config.ApiMinorVersion);
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ReportApiVersions = true;
             })
            .AddApiExplorer(options => {
-                options.GroupNameFormat = "'v'VVV";
+                options.GroupNameFormat =
+                    config.ApiVersionGroupNameFormat ??
+                    throw new Exception(StringHelpers.Message.MissedConfig("ApiVersionGroupNameFormat"));
                 options.SubstituteApiVersionInUrl = true;
             });
     }

@@ -6,7 +6,7 @@ public class GetBrandById
     {
         public int Id { get; init; }
     }
-    
+
     // ReSharper disable once UnusedType.Global
     public class Handler : IRequestHandler<Query, BrandResponse?>
     {
@@ -16,17 +16,17 @@ public class GetBrandById
 
         public async Task<BrandResponse?> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork
-                        .Repository<Domain.Entities.Brand>()
-                        .GetEntities(x => x.Id == request.Id)
-                        .Select(x => new BrandResponse {
-                             Id = x.Id,
-                             Name = x.Name,
-                             Description = x.Description,
-                             LogoId = x.LogoId,
-                             LogoUrl = x.LogoUrl
-                         })
-                        .FirstOrDefaultAsync(cancellationToken);
+            return await _unitOfWork.Repository<Domain.Entities.Brand>()
+                                    .GetEntity<BrandResponse>(
+                                         p => p.Id == request.Id,
+                                         s => new BrandResponse {
+                                             Id = s.Id,
+                                             Name = s.Name,
+                                             Description = s.Description,
+                                             LogoId = s.LogoId,
+                                             LogoUrl = s.LogoUrl
+                                         },
+                                         cancellationToken);
         }
     }
 }

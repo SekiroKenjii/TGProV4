@@ -20,6 +20,60 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
         return await _db.AnyAsync(predicate);
     }
 
+    public async Task<TResult?> GetEntity<TResult>(Expression<Func<T, bool>> predicate,
+                                                   Expression<Func<T, TResult>> selector,
+                                                   CancellationToken cancellationToken,
+                                                   Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
+    {
+        IQueryable<T> query = _db;
+
+        if (orderBy is not null)
+        {
+            query = orderBy(query);
+        }
+
+        return await query.Where(predicate)
+                          .Select(selector)
+                          .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<T?> GetEntity(Expression<Func<T, bool>> predicate,
+                                    Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
+    {
+        IQueryable<T> query = _db;
+
+        if (orderBy is not null)
+        {
+            query = orderBy(query);
+        }
+
+        return await query.FirstOrDefaultAsync(predicate);
+    }
+
+    public IQueryable<TResult> GetEntities<TResult>(Expression<Func<T, TResult>> selector,
+                                                    Expression<Func<T, bool>>? predicate = null,
+                                                    Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                                                    string includeProperties = "")
+    {
+        var query = includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                     .Aggregate<string?, IQueryable<T>>(_db, (current, includeProperty)
+                                          => includeProperty != null
+                                              ? current.Include(includeProperty)
+                                              : current);
+
+        if (predicate is not null)
+        {
+            query = query.Where(predicate);
+        }
+
+        if (orderBy is not null)
+        {
+            query = orderBy(query);
+        }
+
+        return query.Select(selector);
+    }
+
     public IQueryable<T> GetEntities(Expression<Func<T, bool>>? predicate = null,
                                      Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
                                      string includeProperties = "")
@@ -30,12 +84,12 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
                                               ? current.Include(includeProperty)
                                               : current);
 
-        if (predicate != null)
+        if (predicate is not null)
         {
             query = query.Where(predicate);
         }
 
-        if (orderBy != null)
+        if (orderBy is not null)
         {
             query = orderBy(query);
         }

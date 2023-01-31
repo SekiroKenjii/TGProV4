@@ -40,8 +40,7 @@ public class CreateBrand
 
             request.Brand.Entity = ApplicationConstants.Entities.Brand;
 
-            var imageUpload = await _imageService.Upload(request.Brand) ??
-                              throw new Exception(ApplicationConstants.Messages.UploadImageError);
+            var imageUpload = await _imageService.Upload(request.Brand);
 
             var brand = _unitOfWork.Repository<Domain.Entities.Brand>()
                                    .AddAsync(new Domain.Entities.Brand {

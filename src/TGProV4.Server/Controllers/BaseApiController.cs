@@ -25,7 +25,7 @@ public abstract class BaseApiController : ControllerBase
             });
         }
 
-        if (statusCode is HttpStatusCode.OK && result is not null && result.GetType() != typeof(bool))
+        if (statusCode is HttpStatusCode.OK && result is null && typeof(T) != typeof(bool))
         {
             return NotFound(new Response<T> {
                 Message = HttpStatusCode.NotFound.ToString(),

@@ -13,7 +13,7 @@ public class ImageService<T> : IImageService<T> where T : ImageUploadRequest
         config.Value.ApiSecret
     ));
 
-    public async Task<ImageUploadResponse?> Upload(T request)
+    public async Task<ImageUploadResponse> Upload(T request)
     {
         var uploadParams = new ImageUploadParams();
 
@@ -21,7 +21,7 @@ public class ImageService<T> : IImageService<T> where T : ImageUploadRequest
         {
             if (string.IsNullOrEmpty(request.Entity))
             {
-                return null;
+                throw new NullReferenceException("ImageUploadRequest.Entity is null or empty");
             }
 
             return request switch {
@@ -53,12 +53,18 @@ public class ImageService<T> : IImageService<T> where T : ImageUploadRequest
         };
     }
 
-    public async Task<string> Remove(string publicId)
+    public async Task Remove(string publicId)
     {
-        var deleteParams = new DeletionParams(publicId);
-        var result = await _cloudinary.DestroyAsync(deleteParams);
+        var deleteParams = new DeletionParams(publicId) {
+            ResourceType = ResourceType.Image
+        };
 
-        return result.Result;
+        var deletionResult = await _cloudinary.DestroyAsync(deleteParams);
+
+        if (deletionResult.Error is not null)
+        {
+            throw new Exception(deletionResult.Error.Message);
+        }
     }
 
     private static ImageUploadResponse GetDefaultUserImage(string? gender = null)

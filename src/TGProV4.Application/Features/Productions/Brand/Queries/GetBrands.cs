@@ -15,13 +15,12 @@ public class GetBrands
         {
             return await _unitOfWork
                         .Repository<Domain.Entities.Brand>()
-                        .GetEntities()
-                        .Select(x => new BrandResponse {
-                             Id = x.Id,
-                             Name = x.Name,
-                             Description = x.Description,
-                             LogoId = x.LogoId,
-                             LogoUrl = x.LogoUrl
+                        .GetEntities<BrandResponse>(s => new BrandResponse {
+                             Id = s.Id,
+                             Name = s.Name,
+                             Description = s.Description,
+                             LogoId = s.LogoId,
+                             LogoUrl = s.LogoUrl
                          })
                         .ToListAsync(cancellationToken);
         }

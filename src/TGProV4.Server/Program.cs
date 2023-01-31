@@ -6,6 +6,9 @@ var config = builder.Configuration;
 // Service Collection
 var services = builder.Services;
 
+// App Configuration
+var appConfig = services.GetApplicationConfigurations(config);
+
 // Add services to the container.
 services.AddCurrentUserService();
 services.AddSerialization();
@@ -16,11 +19,11 @@ services.AddIdentityUser();
 services.AddCloudService();
 services.AddIdentityService();
 services.ConfigureFluentValidation();
-services.AddJwtAuthentication(services.GetApplicationConfigurations(config));
+services.AddJwtAuthentication(appConfig);
 services.AddInfrastructureMappers();
 services.AddRepositories();
 services.RegisterSwagger();
-services.ConfigureApiVersioning();
+services.ConfigureApiVersioning(appConfig);
 services.ConfigureRoute();
 services.AddEndpointsApiExplorer();
 

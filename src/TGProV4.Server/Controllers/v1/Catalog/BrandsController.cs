@@ -28,4 +28,13 @@ public class BrandsController : BaseApiController
 
         return HandleResult(response, HttpStatusCode.Created);
     }
+
+    [HttpPut("{id:int}")]
+    [Authorize(Policy = ApplicationPermissions.Brands.Update)]
+    public async Task<IActionResult> UpdateBrand(int id, [FromForm] UpsertBrandRequest request)
+    {
+        var response = await Mediator.Send(new UpdateBrand.Command { Id = id, Brand = request });
+
+        return HandleResult(response, HttpStatusCode.NoContent);
+    }
 }
