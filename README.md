@@ -15,8 +15,9 @@ Update soon...
   building many different types of applications
 - [EF Core 7.0](https://docs.microsoft.com/en-us/ef/core/) - EF Core can serve as an
   object-relational mapper (O/RM)
-- [Angular 14](https://angular.io/start) - Angular is a development platform, built
-  on [TypeScript](https://www.typescriptlang.org/)
+- [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) - Blazor is a framework for building interactive client-side web UI with .NET
+- ~~[Angular 14](https://angular.io/start) - Angular is a development platform, built
+  on [TypeScript](https://www.typescriptlang.org/)~~
 
 ## Building
 
@@ -43,7 +44,7 @@ dotnet ef database update -s TGProV4.Server -p TGProV4.Infrastructure -c Applica
 ## Docker
 
 ```bash
-dotnet dev-certs https -ep c:\Users\USER\.aspnet\https\aspnetapp.pfx -p P@ssw0rd1
+dotnet dev-certs https -ep c:\Users\$USER\.aspnet\https\aspnetapp.pfx -p P@ssw0rd1
 dotnet dev-certs https --trust
 docker-compose up --build -d
 ```
