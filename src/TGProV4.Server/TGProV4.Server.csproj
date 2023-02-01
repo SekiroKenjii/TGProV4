@@ -47,6 +47,8 @@
     <Using Include="System.Text.Json" />
     <Using Include="FluentValidation" />
     <Using Include="FluentValidation.AspNetCore" />
+    <Using Include="Hangfire" />
+    <Using Include="Hangfire.Dashboard" />
     <Using Include="MediatR" />
     <Using Include="Microsoft.AspNetCore.Authorization" />
     <Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
@@ -72,6 +74,7 @@
     <Using Include="TGProV4.Infrastructure.Models.Identity" />
     <Using Include="TGProV4.Infrastructure.Services" />
     <Using Include="TGProV4.Server.Extensions" />
+    <Using Include="TGProV4.Server.Filters" />
     <Using Include="TGProV4.Server.Middlewares" />
     <Using Include="TGProV4.Server.OpenApi" />
     <Using Include="TGProV4.Server.Services" />

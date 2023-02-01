@@ -23,8 +23,9 @@ services.AddJwtAuthentication(appConfig);
 services.AddInfrastructureMappers();
 services.AddRepositories();
 services.RegisterSwagger();
-services.ConfigureApiVersioning(appConfig);
-services.ConfigureRoute();
+services.RegisterHangfire(config);
+services.RegisterApiVersioning(appConfig);
+services.ConfigureRouteService();
 services.AddEndpointsApiExplorer();
 
 // Web Application
@@ -41,4 +42,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Initialize();
+app.ConfigureHangfire(); // Ensure that the database has been initialized
 app.Run();

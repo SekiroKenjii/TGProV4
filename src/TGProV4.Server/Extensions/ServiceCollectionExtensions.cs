@@ -47,7 +47,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICurrentUserService, CurrentUserService>();
     }
 
-    public static void ConfigureRoute(this IServiceCollection services)
+    public static void ConfigureRouteService(this IServiceCollection services)
     {
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
     }
@@ -158,7 +158,13 @@ public static class ServiceCollectionExtensions
         });
     }
 
-    public static void ConfigureApiVersioning(this IServiceCollection services, AppConfiguration config)
+    public static void RegisterHangfire(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection")));
+        services.AddHangfireServer();
+    }
+
+    public static void RegisterApiVersioning(this IServiceCollection services, AppConfiguration config)
     {
         services
            .AddApiVersioning(options => {

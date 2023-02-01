@@ -13,16 +13,15 @@ public class GetBrands
 
         public async Task<List<BrandResponse>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork
-                        .Repository<Domain.Entities.Brand>()
-                        .GetEntities<BrandResponse>(s => new BrandResponse {
-                             Id = s.Id,
-                             Name = s.Name,
-                             Description = s.Description,
-                             LogoId = s.LogoId,
-                             LogoUrl = s.LogoUrl
-                         })
-                        .ToListAsync(cancellationToken);
+            return await _unitOfWork.Repository<Domain.Entities.Brand>()
+                                    .GetEntities<BrandResponse>(s => new BrandResponse {
+                                         Id = s.Id,
+                                         Name = s.Name,
+                                         Description = s.Description,
+                                         LogoId = s.LogoId,
+                                         LogoUrl = s.LogoUrl
+                                     })
+                                    .ToListAsync(cancellationToken);
         }
     }
 }

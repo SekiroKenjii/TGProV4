@@ -10,6 +10,16 @@ public static class ApplicationBuilderExtensions
         }
     }
 
+    public static void ConfigureHangfire(this IApplicationBuilder app)
+    {
+        app.UseHangfireDashboard("/background-processes", new DashboardOptions {
+            DashboardTitle = "TGProV4 Background Process",
+            Authorization = new[] {
+                new HangfireAuthorizationFilter()
+            }
+        });
+    }
+
     public static void ConfigureSwagger(this IApplicationBuilder app)
     {
         app.UseSwagger();
@@ -23,7 +33,6 @@ public static class ApplicationBuilderExtensions
     public static void Initialize(this IApplicationBuilder app)
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
-
         var initializers = serviceScope.ServiceProvider.GetServices<IDataSeeder>();
 
         foreach (var initializer in initializers)
