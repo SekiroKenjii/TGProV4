@@ -2,7 +2,7 @@ namespace TGProV4.Application.Interfaces.Repositories;
 
 public interface IRepositoryBase<T, in TId> where T : class, IEntity<TId>
 {
-    IQueryable<T> Entities { get; }
+    IQueryable<T> Model { get; }
     Task<bool> IsEntityExists(Expression<Func<T, bool>> predicate);
     Task<TResult?> GetEntity<TResult>(Expression<Func<T, bool>> predicate,
                                       Expression<Func<T, TResult>> selector,
@@ -10,13 +10,13 @@ public interface IRepositoryBase<T, in TId> where T : class, IEntity<TId>
                                       Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);
     Task<T?> GetEntity(Expression<Func<T, bool>> predicate,
                        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);
-    IQueryable<TResult> GetEntities<TResult>(Expression<Func<T, TResult>> selector,
+    Task<IEnumerable<TResult>> GetEntities<TResult>(Expression<Func<T, TResult>> selector,
                                              Expression<Func<T, bool>>? predicate = null,
                                              Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
                                              string includeProperties = "");
-    IQueryable<T> GetEntities(Expression<Func<T, bool>>? predicate = null,
-                              Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-                              string includeProperties = "");
+    Task<IEnumerable<T>> GetEntities(Expression<Func<T, bool>>? predicate = null,
+                                     Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                                     string includeProperties = "");
     IQueryable<T> GetPagedResponse(int pageNumber,
                                    int pageSize,
                                    Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,

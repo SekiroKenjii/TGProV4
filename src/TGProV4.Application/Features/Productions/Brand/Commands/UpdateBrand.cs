@@ -69,7 +69,8 @@ public class UpdateBrand
 
             await _unitOfWork.Repository<Domain.Entities.Brand>().UpdateAsync(brand);
 
-            return await _unitOfWork.Commit(cancellationToken) > 0;
+            return await _unitOfWork.CommitAndRemoveCache(cancellationToken,
+                ApplicationConstants.Cache.AllBrandsCacheKey) > 0;
         }
     }
 }

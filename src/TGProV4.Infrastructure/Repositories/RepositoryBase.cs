@@ -11,7 +11,7 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
         _db = _context.Set<T>();
     }
 
-    public IQueryable<T> Entities {
+    public IQueryable<T> Model {
         get => _db;
     }
 
@@ -50,10 +50,10 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
         return await query.FirstOrDefaultAsync(predicate);
     }
 
-    public IQueryable<TResult> GetEntities<TResult>(Expression<Func<T, TResult>> selector,
-                                                    Expression<Func<T, bool>>? predicate = null,
-                                                    Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-                                                    string includeProperties = "")
+    public async Task<IEnumerable<TResult>> GetEntities<TResult>(Expression<Func<T, TResult>> selector,
+                                                           Expression<Func<T, bool>>? predicate = null,
+                                                           Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                                                           string includeProperties = "")
     {
         var query = includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                      .Aggregate<string?, IQueryable<T>>(_db, (current, includeProperty)
@@ -71,12 +71,12 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
             query = orderBy(query);
         }
 
-        return query.Select(selector);
+        return await query.Select(selector).ToListAsync();
     }
 
-    public IQueryable<T> GetEntities(Expression<Func<T, bool>>? predicate = null,
-                                     Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-                                     string includeProperties = "")
+    public async Task<IEnumerable<T>> GetEntities(Expression<Func<T, bool>>? predicate = null,
+                                            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                                            string includeProperties = "")
     {
         var query = includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                      .Aggregate<string?, IQueryable<T>>(_db, (current, includeProperty)
@@ -94,7 +94,7 @@ public class RepositoryBase<T, TId> : IRepositoryBase<T, TId> where T : Auditabl
             query = orderBy(query);
         }
 
-        return query;
+        return await query.ToListAsync();
     }
 
     public IQueryable<T> GetPagedResponse(int pageNumber,

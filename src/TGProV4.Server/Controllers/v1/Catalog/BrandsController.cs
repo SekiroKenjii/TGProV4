@@ -12,7 +12,7 @@ public class BrandsController : BaseApiController
     }
 
     [HttpGet]
-    [Authorize(Policy = ApplicationPermissions.Brands.Read)]
+    //[Authorize(Policy = ApplicationPermissions.Brands.Read)]
     public async Task<IActionResult> GetBrands()
     {
         var response = await Mediator.Send(new GetBrands.Query());

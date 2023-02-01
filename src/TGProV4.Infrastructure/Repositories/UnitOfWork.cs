@@ -5,9 +5,13 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
     private readonly ApplicationDbContext _context;
     private bool _disposed;
     private Hashtable? _repositories;
+    private readonly IAppCache _cache;
 
-    public UnitOfWork(ApplicationDbContext context)
-        => _context = context ?? throw new ArgumentNullException(nameof(context));
+    public UnitOfWork(ApplicationDbContext context, IAppCache cache)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _cache = cache;
+    }
 
     public void Dispose()
     {
@@ -40,7 +44,6 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
         }
 
         var repositoryType = typeof(RepositoryBase<,>);
-
         var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T), typeof(TId)),
             _context);
 
@@ -54,14 +57,22 @@ public class UnitOfWork<TId> : IUnitOfWork<TId>
         return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<int> CommitAndRemoveCache(CancellationToken cancellationToken, params string[] cacheKeys)
+    public async Task<int> CommitAndRemoveCache(CancellationToken cancellationToken, params string[] cacheKeys)
     {
-        throw new NotImplementedException();
+        var result = await _context.SaveChangesAsync(cancellationToken);
+
+        foreach (var cacheKey in cacheKeys)
+        {
+            _cache.Remove(cacheKey);
+        }
+
+        return result;
     }
 
     public Task Rollback()
     {
         _context.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
+
         return Task.CompletedTask;
     }
 }

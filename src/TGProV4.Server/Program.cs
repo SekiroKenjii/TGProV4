@@ -25,6 +25,7 @@ services.AddRepositories();
 services.RegisterSwagger();
 services.RegisterHangfire(config);
 services.RegisterApiVersioning(appConfig);
+services.AddLazyCache();
 services.ConfigureRouteService();
 services.AddEndpointsApiExplorer();
 

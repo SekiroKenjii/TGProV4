@@ -72,4 +72,15 @@ public static class ApplicationConstants
         public const string ResetPassword = "api/account/reset-password/";
         public const string ConfirmEmail = "api/identity/confirm-email/";
     }
+
+    public static class Cache
+    {
+        public const string AllBrandsCacheKey = "all-brands";
+        public const string AllSubBrandsCacheKey = "all-sub-brands";
+        public const string AllProductsCacheKey = "all-products";
+        public const string AllCategoriesCacheKey = "all-categories";
+        public const string AllColorsCacheKey = "all-colors";
+        public const string AllProductTypesCacheKey = "all-product-types";
+        public const string AllProductConditionsCacheKey = "all-product-conditions";
+    }
 }

@@ -51,7 +51,8 @@ public class CreateBrand
                                         CreatedBy = _currentUserService.UserId
                                     });
 
-            var save = await _unitOfWork.Commit(cancellationToken) > 0;
+            var save = await _unitOfWork.CommitAndRemoveCache(cancellationToken,
+                           ApplicationConstants.Cache.AllBrandsCacheKey) > 0;
 
             return !save ? default : _mapper.Map<BrandResponse>(brand);
         }

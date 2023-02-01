@@ -47,6 +47,7 @@
     <Using Include="CloudinaryDotNet" />
     <Using Include="CloudinaryDotNet.Actions" />
     <Using Include="Hangfire" />
+    <Using Include="LazyCache" />
     <Using Include="MailKit.Net.Smtp" />
     <Using Include="MailKit.Security" />
     <Using Include="MimeKit" />
