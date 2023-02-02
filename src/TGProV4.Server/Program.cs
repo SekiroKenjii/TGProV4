@@ -11,8 +11,11 @@ var appConfig = services.GetApplicationConfigurations(config);
 
 // Add services to the container.
 services.AddCurrentUserService();
+services.AddControllers();
 services.AddSerialization();
 services.AddDatabase(config);
+services.AddServerStorage();
+services.AddScoped<ServerPreferenceManager>();
 services.ConfigureCloudinaryService(config);
 services.AddApplicationLayer();
 services.AddIdentityUser();

@@ -66,9 +66,13 @@
     <Using Include="TGProV4.Application.Configurations" />
     <Using Include="TGProV4.Application.Exceptions" />
     <Using Include="TGProV4.Application.Interfaces.Repositories" />
+    <Using Include="TGProV4.Application.Interfaces.Serialization.Serializers" />
     <Using Include="TGProV4.Application.Interfaces.Services" />
     <Using Include="TGProV4.Application.Interfaces.Services.Cloud" />
     <Using Include="TGProV4.Application.Interfaces.Services.Identity" />
+    <Using Include="TGProV4.Application.Interfaces.Services.Storage" />
+    <Using Include="TGProV4.Application.Interfaces.Services.Storage.Events" />
+    <Using Include="TGProV4.Application.Interfaces.Services.Storage.Providers" />
     <Using Include="TGProV4.Application.Requests" />
     <Using Include="TGProV4.Application.Requests.Mail" />
     <Using Include="TGProV4.Application.Requests.Identity" />
@@ -76,6 +80,9 @@
     <Using Include="TGProV4.Application.Requests.Production.Product" />
     <Using Include="TGProV4.Application.Responses" />
     <Using Include="TGProV4.Application.Responses.Identity" />
+    <Using Include="TGProV4.Application.Serialization.JsonConverters" />
+    <Using Include="TGProV4.Application.Serialization.Options" />
+    <Using Include="TGProV4.Application.Serialization.Serializers" />
     <Using Include="TGProV4.Domain.Contracts" />
     <Using Include="TGProV4.Domain.Enums" />
     <Using Include="TGProV4.Domain.Entities" />
@@ -88,6 +95,8 @@
     <Using Include="TGProV4.Infrastructure.Repositories" />
     <Using Include="TGProV4.Infrastructure.Services.Cloud" />
     <Using Include="TGProV4.Infrastructure.Services.Identity" />
+    <Using Include="TGProV4.Infrastructure.Services.Storage" />
+    <Using Include="TGProV4.Infrastructure.Services.Storage.Provider" />
     <Using Include="TGProV4.Shared.Constants.Application" />
     <Using Include="TGProV4.Shared.Helpers" />
   </ItemGroup>

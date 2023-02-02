@@ -1,5 +1,3 @@
-using TGProV4.Infrastructure.Extensions;
-
 namespace TGProV4.Infrastructure.Services.Identity;
 
 public class IdentityService : ITokenService
@@ -143,7 +141,7 @@ public class IdentityService : ITokenService
             {
                 continue;
             }
-            
+
             var permissions = await _roleManager.GetClaimsAsync(roleEntity);
             permissionClaims.AddRange(permissions);
         }

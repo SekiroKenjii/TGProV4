@@ -83,4 +83,17 @@ public static class ApplicationConstants
         public const string AllProductTypesCacheKey = "all-product-types";
         public const string AllProductConditionsCacheKey = "all-product-conditions";
     }
+
+    public static class Storage
+    {
+        public static class Local
+        {
+            public const string Preference = "LocalPreference";
+        }
+
+        public static class Server
+        {
+            public const string Preference = "ServerPreference";
+        }
+    }
 }

@@ -1,31 +1,33 @@
 namespace TGProV4.Application.Exceptions;
 
-public class ValidationException : Exception
+public sealed class ValidationException : Exception
 {
-    private readonly List<BaseError> _errors;
+    private readonly ICollection<IError> _errors;
 
     private ValidationException() : base(ApplicationConstants.Messages.ValidationError)
-        => _errors = new List<BaseError>();
+        => _errors = new List<IError>();
 
     public ValidationException(IEnumerable<ValidationFailure> failures) : this()
     {
         foreach (var failure in failures)
         {
-            _errors.Add(new BaseValidationError {
+            _errors.Add(new ValidationError {
                 Code = failure.ErrorCode,
                 Message = failure.ErrorMessage,
-                RelatedProperties = failure.PropertyName
+                PropertyName = failure.PropertyName,
+                StackTrace = StackTrace
             });
         }
     }
 
     public ValidationException(string errorCode, string message, string propertyName) : this()
         => _errors.Add(
-            new BaseValidationError {
+            new ValidationError {
                 Code = errorCode,
                 Message = message,
-                RelatedProperties = propertyName
+                PropertyName = propertyName,
+                StackTrace = StackTrace
             });
 
-    public List<BaseError> GetErrors() { return _errors; }
+    public ICollection<IError> GetErrors() { return _errors; }
 }

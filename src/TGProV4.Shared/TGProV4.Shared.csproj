@@ -13,6 +13,9 @@
     <Using Include="System.ComponentModel" />
     <Using Include="System.Reflection" />
     <Using Include="TGProV4.Shared.Constants.Application" />
+    <Using Include="TGProV4.Shared.Settings" />
+    <Using Include="TGProV4.Shared.Wrapper.Base" />
+    <Using Include="TGProV4.Shared.Wrapper.Base.Error" />
   </ItemGroup>
 
 </Project>

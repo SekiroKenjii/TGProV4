@@ -28,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
@@ -41,6 +42,7 @@
     <Using Include="Asp.Versioning" />
     <Using Include="Asp.Versioning.ApiExplorer" />
     <Using Include="System.Diagnostics" />
+    <Using Include="System.Globalization" />
     <Using Include="System.Net" />
     <Using Include="System.Reflection" />
     <Using Include="System.Security.Claims" />
@@ -58,6 +60,7 @@
     <Using Include="Microsoft.AspNetCore.Identity" />
     <Using Include="Microsoft.EntityFrameworkCore" />
     <Using Include="Microsoft.Extensions.Options" />
+    <Using Include="Microsoft.Extensions.Localization" />
     <Using Include="Microsoft.IdentityModel.Tokens" />
     <Using Include="Microsoft.OpenApi.Any" />
     <Using Include="Microsoft.OpenApi.Models" />
@@ -68,21 +71,33 @@
     <Using Include="TGProV4.Application.Extensions" />
     <Using Include="TGProV4.Application.Features.Productions.Brand.Commands" />
     <Using Include="TGProV4.Application.Features.Productions.Brand.Queries" />
+    <Using Include="TGProV4.Application.Interfaces.Serialization.Options" />
+    <Using Include="TGProV4.Application.Interfaces.Serialization.Serializers" />
     <Using Include="TGProV4.Application.Interfaces.Services" />
-    <Using Include="TGProV4.Application.Requests.Production.Brand;" />
+    <Using Include="TGProV4.Application.Interfaces.Services.Storage" />
+    <Using Include="TGProV4.Application.Requests.Production.Brand" />
+    <Using Include="TGProV4.Application.Serialization.JsonConverters" />
+    <Using Include="TGProV4.Application.Serialization.Options" />
+    <Using Include="TGProV4.Application.Serialization.Serializers" />
     <Using Include="TGProV4.Infrastructure.Contexts" />
     <Using Include="TGProV4.Infrastructure.Extensions" />
     <Using Include="TGProV4.Infrastructure.Models.Identity" />
     <Using Include="TGProV4.Infrastructure.Services" />
     <Using Include="TGProV4.Server.Extensions" />
     <Using Include="TGProV4.Server.Filters" />
+    <Using Include="TGProV4.Server.Managers.Preferences" />
     <Using Include="TGProV4.Server.Middlewares" />
     <Using Include="TGProV4.Server.OpenApi" />
     <Using Include="TGProV4.Server.Services" />
+    <Using Include="TGProV4.Server.Settings" />
     <Using Include="TGProV4.Shared.Constants.Application" />
+    <Using Include="TGProV4.Shared.Constants.Localization" />
     <Using Include="TGProV4.Shared.Helpers" />
+    <Using Include="TGProV4.Shared.Settings" />
     <Using Include="TGProV4.Shared.Wrapper" />
     <Using Include="TGProV4.Shared.Wrapper.Base" />
+    <Using Include="TGProV4.Shared.Wrapper.Base.Error" />
+    <Using Include="TGProV4.Shared.Wrapper.Error" />
   </ItemGroup>
 
 </Project>

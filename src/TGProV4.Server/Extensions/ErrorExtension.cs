@@ -2,7 +2,7 @@ namespace TGProV4.Server.Extensions;
 
 public static class ErrorExtension
 {
-    public static void HandleStackTrace(this ICollection<BaseError> errors, Exception exception)
+    public static void HandleStackTrace(this ICollection<IError> errors, Exception exception)
     {
         var stackTrace = new StackTrace(exception, true);
 
@@ -21,10 +21,11 @@ public static class ErrorExtension
 
             if (!string.IsNullOrEmpty(fileName) && !string.IsNullOrEmpty(method) && !string.IsNullOrEmpty(line))
             {
-                errors.Add(new BaseSystemError {
+                errors.Add(new SystemError {
                     FileName = fileName,
                     Method = method,
-                    LineNumber = line
+                    LineNumber = line,
+                    StackTrace = exception.StackTrace
                 });
             }
         }

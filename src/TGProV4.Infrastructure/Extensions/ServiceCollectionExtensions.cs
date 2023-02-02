@@ -27,4 +27,25 @@ public static class ServiceCollectionExtensions
            .AddTransient<ITokenService, IdentityService>()
            .AddTransient<IUserService, UserService>();
     }
+
+    public static void AddServerStorage(this IServiceCollection services) { services.AddServerStorage(null); }
+
+    private static void AddServerStorage(this IServiceCollection services,
+                                         Action<SystemTextJsonOptions>? configure)
+    {
+        services
+           .AddScoped<IJsonSerializer, SystemTextJsonSerializer>()
+           .AddScoped<IStorageProvider, ServerStorageProvider>()
+           .AddScoped<IAsyncServerStorageService, ServerStorageService>()
+           .AddScoped<ISyncServerStorageService, ServerStorageService>()
+           .Configure<SystemTextJsonOptions>(configureOptions => {
+                configure?.Invoke(configureOptions);
+
+                if (configureOptions.JsonSerializerOptions.Converters.All(c
+                        => c.GetType() != typeof(TimespanJsonConverter)))
+                {
+                    configureOptions.JsonSerializerOptions.Converters.Add(new TimespanJsonConverter());
+                }
+            });
+    }
 }

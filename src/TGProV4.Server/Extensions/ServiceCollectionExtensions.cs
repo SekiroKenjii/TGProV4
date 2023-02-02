@@ -61,10 +61,16 @@ public static class ServiceCollectionExtensions
 
     public static void AddSerialization(this IServiceCollection services)
     {
+        services.AddScoped<IJsonSerializer, SystemTextJsonSerializer>();
         services
-           .AddControllers()
-           .AddNewtonsoftJson(
-                options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+           .AddScoped<IJsonSerializerOptions, SystemTextJsonOptions>()
+           .Configure<SystemTextJsonOptions>(configureOptions => {
+                if (configureOptions.JsonSerializerOptions.Converters.All(c
+                        => c.GetType() != typeof(TimespanJsonConverter)))
+                {
+                    configureOptions.JsonSerializerOptions.Converters.Add(new TimespanJsonConverter());
+                }
+            });
     }
 
     public static void AddJwtAuthentication(this IServiceCollection services, AppConfiguration config)

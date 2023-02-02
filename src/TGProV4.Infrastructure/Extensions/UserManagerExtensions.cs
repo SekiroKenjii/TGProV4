@@ -1,6 +1,6 @@
 ﻿namespace TGProV4.Infrastructure.Extensions;
 
-public static class UserExtensions
+public static class UserManagerExtensions
 {
     public static async Task<AppUser> ValidateUserWithPassword(this AppUser? user,
                                                       UserManager<AppUser> userManager,

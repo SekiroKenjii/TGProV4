@@ -28,6 +28,9 @@
   <ItemGroup Condition="'$(Language)' == 'C#' AND ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
     <Using Include="System.Linq.Expressions" />
     <Using Include="System.Reflection" />
+    <Using Include="System.Text.Json" />
+    <Using Include="System.Text.Json.Serialization" />
+    <Using Include="System.Text.RegularExpressions" />
     <Using Include="AutoMapper" />
     <Using Include="FluentValidation.Results" />
     <Using Include="LazyCache" />
@@ -35,11 +38,15 @@
     <Using Include="Microsoft.AspNetCore.Http" />
     <Using Include="Microsoft.EntityFrameworkCore" />
     <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Microsoft.Extensions.Options" />
     <Using Include="TGProV4.Domain.Contracts" />
     <Using Include="TGProV4.Domain.Entities" />
     <Using Include="TGProV4.Application.Exceptions" />
     <Using Include="TGProV4.Application.Interfaces.Repositories" />
+    <Using Include="TGProV4.Application.Interfaces.Serialization.Options" />
+    <Using Include="TGProV4.Application.Interfaces.Serialization.Serializers" />
     <Using Include="TGProV4.Application.Interfaces.Services" />
+    <Using Include="TGProV4.Application.Interfaces.Services.Storage.Events" />
     <Using Include="TGProV4.Application.Requests.Mail" />
     <Using Include="TGProV4.Application.Requests.Production.Brand" />
     <Using Include="TGProV4.Application.Interfaces.Services.Cloud" />
@@ -48,9 +55,12 @@
     <Using Include="TGProV4.Application.Responses" />
     <Using Include="TGProV4.Application.Responses.Identity" />
     <Using Include="TGProV4.Application.Responses.Production.Brand" />
+    <Using Include="TGProV4.Application.Serialization.Options" />
     <Using Include="TGProV4.Shared.Constants.Application" />
     <Using Include="TGProV4.Shared.Wrapper" />
     <Using Include="TGProV4.Shared.Wrapper.Base" />
+    <Using Include="TGProV4.Shared.Wrapper.Base.Error" />
+    <Using Include="TGProV4.Shared.Wrapper.Error" />
   </ItemGroup>
 
   <ItemGroup>
