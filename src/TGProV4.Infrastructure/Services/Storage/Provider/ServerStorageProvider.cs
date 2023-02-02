@@ -32,7 +32,15 @@ public class ServerStorageProvider : IStorageProvider
 
     public ValueTask<int> LengthAsync() { return ValueTask.FromResult(Length()); }
 
-    public void RemoveItem(string key) { _storage.Remove(key); }
+    public void RemoveItem(string key)
+    {
+        if (!_storage.ContainsKey(key))
+        {
+            return;
+        }
+
+        _storage.Remove(key);
+    }
 
     public ValueTask RemoveItemAsync(string key)
     {
@@ -46,11 +54,10 @@ public class ServerStorageProvider : IStorageProvider
         if (_storage.ContainsKey(key))
         {
             _storage[key] = data;
+            return;
         }
-        else
-        {
-            _storage.Add(key, data);
-        }
+
+        _storage.Add(key, data);
     }
 
     public ValueTask SetItemAsync(string key, string data)
