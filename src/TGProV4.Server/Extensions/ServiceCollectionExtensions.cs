@@ -2,6 +2,11 @@ namespace TGProV4.Server.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    public static void AddServerLocalization(this IServiceCollection services)
+    {
+        services.TryAddTransient(typeof(IStringLocalizer<>), typeof(ServerLocalizer<>));
+    }
+
     public static AppConfiguration GetApplicationConfigurations(this IServiceCollection services,
                                                                 IConfiguration configuration)
     {

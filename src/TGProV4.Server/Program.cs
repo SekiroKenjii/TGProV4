@@ -10,6 +10,10 @@ var services = builder.Services;
 var appConfig = services.GetApplicationConfigurations(config);
 
 // Add services to the container.
+services.AddLocalization(options => {
+    options.ResourcesPath = "Resources";
+});
+services.AddServerLocalization();
 services.AddCurrentUserService();
 services.AddControllers();
 services.AddSerialization();

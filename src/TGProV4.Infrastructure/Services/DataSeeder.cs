@@ -27,16 +27,27 @@ public class DataSeeder : IDataSeeder
 
     public void Run()
     {
-        _context.Database.Migrate();
+        try {
+            if (_context.Database.IsSqlServer())
+            {
+                _context.Database.Migrate();
+            }
 
-        AddAdministrator();
-        AddBrands();
+            AddAdministrator();
+            AddBrands();
 
-        var result = _context.SaveChanges();
+            var result = _context.SaveChanges();
 
-        if (result > 0)
+            if (result > 0)
+            {
+                _logger.LogInformation("Done!");
+            }
+        }
+        catch (Exception e)
         {
-            _logger.LogInformation("Done!");
+            _logger.LogError(e, "An error occurred while migrating or seeding the database.");
+
+            throw;
         }
     }
 

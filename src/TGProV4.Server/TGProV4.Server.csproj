@@ -59,6 +59,7 @@
     <Using Include="Microsoft.AspNetCore.Mvc.ApiExplorer" />
     <Using Include="Microsoft.AspNetCore.Identity" />
     <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.Extensions.DependencyInjection.Extensions" />
     <Using Include="Microsoft.Extensions.Options" />
     <Using Include="Microsoft.Extensions.Localization" />
     <Using Include="Microsoft.IdentityModel.Tokens" />
@@ -85,6 +86,7 @@
     <Using Include="TGProV4.Infrastructure.Services" />
     <Using Include="TGProV4.Server.Extensions" />
     <Using Include="TGProV4.Server.Filters" />
+    <Using Include="TGProV4.Server.Localization" />
     <Using Include="TGProV4.Server.Managers.Preferences" />
     <Using Include="TGProV4.Server.Middlewares" />
     <Using Include="TGProV4.Server.OpenApi" />
