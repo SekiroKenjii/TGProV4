@@ -20,7 +20,7 @@ public static class ApplicationConstants
         public const string InvalidToken = "Invalid Client Token.";
         public const string Unauthorized = "You are not authorized!";
         public const string Forbidden = "You are not authorized to access this resource!";
-        public const string NotAllowToAddOrDeleteAdminRole = "you are not allowed to add or delete Administrator Role.";
+        public const string NotAllowToAddOrDeleteAdminRole = "You are not allowed to add or delete Administrator Role.";
         public const string UploadImageError = "An error has occurred while trying to upload an image.";
         public const string HeaderError = "One or more required header values were missing.";
         public const string MailSent = "An email has been sent. Please check your mailbox and follow the instructions.";

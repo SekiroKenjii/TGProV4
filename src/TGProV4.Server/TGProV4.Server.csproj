@@ -100,4 +100,82 @@
     <Using Include="TGProV4.Shared.Wrapper.Error" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Startup.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Startup.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Startup.vi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Startup.vi.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Localization\ServerCommonResources.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServerCommonResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Localization\ServerCommonResources.vi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServerCommonResources.vi.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Managers\Preferences\ServerPreferenceManager.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServerPreferenceManager.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Managers\Preferences\ServerPreferenceManager.vi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServerPreferenceManager.vi.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Managers\Startup.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Startup.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Managers\Startup.vi.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Startup.vi.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Startup.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Startup.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Startup.vi.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Startup.vi.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localization\ServerCommonResources.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServerCommonResources.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localization\ServerCommonResources.vi.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServerCommonResources.vi.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Managers\Preferences\ServerPreferenceManager.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServerPreferenceManager.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Managers\Preferences\ServerPreferenceManager.vi.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServerPreferenceManager.vi.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Managers\Startup.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Startup.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Managers\Startup.vi.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Startup.vi.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

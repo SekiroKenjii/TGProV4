@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="One or more validation failures have occurred." xml:space="preserve">
+        <value>One or more validation failures have occurred.</value>
+    </data>
+    <data name="Email or password is incorrect." xml:space="preserve">
+        <value>Email or password is incorrect.</value>
+    </data>
+    <data name="Email is not confirmed." xml:space="preserve">
+        <value>Email is not confirmed.</value>
+    </data>
+    <data
+        name="Your account has been locked! Please contact your website administrator for more information."
+        xml:space="preserve">
+        <value>Your account has been locked! Please contact your website administrator for more information.</value>
+    </data>
+    <data name="Token Has Been Revoked." xml:space="preserve">
+        <value>Token Has Been Revoked.</value>
+    </data>
+    <data name="Token Has Been Expired." xml:space="preserve">
+        <value>Token Has Been Expired.</value>
+    </data>
+    <data name="Invalid Client Token." xml:space="preserve">
+        <value>Invalid Client Token.</value>
+    </data>
+    <data name="You are not authorized!" xml:space="preserve">
+        <value>You are not authorized!</value>
+    </data>
+    <data name="You are not authorized to access this resource!" xml:space="preserve">
+        <value>You are not authorized to access this resource!</value>
+    </data>
+    <data name="You are not allowed to add or delete Administrator Role." xml:space="preserve">
+        <value>You are not allowed to add or delete Administrator Role.</value>
+    </data>
+    <data name="An error has occurred while trying to upload an image." xml:space="preserve">
+        <value>An error has occurred while trying to upload an image.</value>
+    </data>
+    <data name="One or more required header values were missing." xml:space="preserve">
+        <value>One or more required header values were missing.</value>
+    </data>
+    <data name="An email has been sent. Please check your mailbox and follow the instructions."
+          xml:space="preserve">
+        <value>An email has been sent. Please check your mailbox and follow the instructions.</value>
+    </data>
+    <data name="An unhandled error has occurred." xml:space="preserve">
+        <value>An unhandled error has occurred.</value>
+    </data>
+</root>
